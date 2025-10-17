@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover hidden md:block opacity-30"
       >
-        <source src="/videos/pl-landscape.mp4" type="video/mp4" />
+        <source src="/videos/Landscape-hero.mov" type="video/mp4" />
       </video>
 
       {/* Full Screen Video Background - Mobile */}
@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover md:hidden opacity-30"
       >
-        <source src="/videos/pl-vertical.mp4" type="video/mp4" />
+        <source src="/videos/Vertical-hero.mov" type="video/mp4" />
       </video>
 
       {/* Radial spotlight effect */}
