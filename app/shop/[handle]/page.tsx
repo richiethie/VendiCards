@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import AddToCartButton from '@/components/AddToCartButton'
 import ProductGallery from '@/components/ProductGallery'
+import { Image as ShopifyImage } from '@/types/shopify'
 
 interface ProductPageProps {
   params: Promise<{
@@ -74,7 +75,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     )
   }
 
-  const images = product.images.edges.map(edge => edge.node)
+  const images = product.images.edges.map((edge: { node: ShopifyImage }) => edge.node)
   const firstVariant = product.variants.edges[0]?.node
   const isAvailable = product.availableForSale && firstVariant?.availableForSale
   const quantityAvailable = firstVariant?.quantityAvailable
