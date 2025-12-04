@@ -44,6 +44,7 @@ const Header: React.FC = () => {
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
     { name: 'Repairs', href: '/repairs' },
+    { name: 'Grading', href: '/grading' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -418,12 +419,12 @@ const Header: React.FC = () => {
             <div className="pt-4 mt-4 border-t border-gray-800">
               <p className="px-4 text-sm text-gray-400 mb-2">Need help? Call us:</p>
               <a
-                href="tel:+12242564715"
+                href="tel:+19205396222"
                 className="flex items-center w-full px-4 py-3 text-base font-medium text-primary-400 hover:text-primary-300 hover:bg-gray-800 rounded-lg transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <Phone className="w-5 h-5 mr-3" />
-                (224) 256-4715
+                (920) 539-6222
               </a>
             </div>
           </div>

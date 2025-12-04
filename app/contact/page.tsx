@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { FaEtsy } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
 
 export default function ContactPage() {
   return (
@@ -49,50 +49,55 @@ export default function ContactPage() {
             {/* Contact Details */}
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">Phone</h3>
-                  <a href="tel:+12242564715" className="text-emerald-400 hover:text-emerald-300 font-medium text-sm sm:text-base">
-                    (224) 256-4715
+                  <a href="tel:+19205396222" className="text-red-400 hover:text-red-300 font-medium text-sm sm:text-base">
+                    (920) 539-6222
                   </a>
                   <p className="text-xs sm:text-sm text-gray-500">Call or text for fastest response</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">Email</h3>
-                  <a href="mailto:contact@vendicards.com" className="text-emerald-400 hover:text-emerald-300 font-medium text-sm sm:text-base">
-                    contact@vendicards.com
+                  <a href="mailto:vendicards@gmail.com" className="text-red-400 hover:text-red-300 font-medium text-sm sm:text-base">
+                    vendicards@gmail.com
                   </a>
                   <p className="text-xs sm:text-sm text-gray-500">We typically respond within 24 hours</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">Location</h3>
-                  <p className="text-gray-400 text-sm sm:text-base">Illinois, United States</p>
+                  <Link href="/location" className="hover:text-red-400 transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-white hover:text-red-400 transition-colors">Location</h3>
+                  </Link>
+                  <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+                    74 South Main Street, Suite 106<br />
+                    Fond du Lac, WI 54935
+                  </p>
                   <p className="text-xs sm:text-sm text-gray-500">Shipping available nationwide</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Clock className="w-5 sm:w-6 h-5 sm:h-6 text-emerald-400" />
+                <div className="w-10 sm:w-12 h-10 sm:h-12 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Clock className="w-5 sm:w-6 h-5 sm:h-6 text-red-400" />
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">Availability</h3>
-                  <p className="text-gray-400 text-sm sm:text-base">Monday - Sunday</p>
-                  <p className="text-xs sm:text-sm text-gray-500">We work around your schedule - reach out anytime</p>
+                  <p className="text-gray-400 text-sm sm:text-base">Hours are M-F 3-8pm or by appointment</p>
+                  <p className="text-xs sm:text-sm text-gray-500">Please call ahead to schedule an appointment</p>
                 </div>
               </div>
             </div>
@@ -121,17 +126,17 @@ export default function ContactPage() {
                 </a>
 
                 <a
-                  href="https://www.etsy.com/shop/VendiCardsShop"
+                  href="https://www.instagram.com/vendicards/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 bg-[#0e0f11] border border-gray-800 rounded-lg p-3 sm:p-4 hover:bg-white/5 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <FaEtsy className="w-4 h-4 text-orange-600" />
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <FaInstagram className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-semibold text-white text-xs sm:text-sm">Etsy</p>
-                    <p className="text-gray-500 text-xs">Curated Cards</p>
+                    <p className="font-semibold text-white text-xs sm:text-sm">Instagram</p>
+                    <p className="text-gray-500 text-xs">Follow Us</p>
                   </div>
                 </a>
 
@@ -165,12 +170,12 @@ export default function ContactPage() {
                 .contact-form textarea {
                   width: 100% !important;
                   padding: 14px 16px !important;
-                  border: 1px solid #d1d5db !important;
+                  border: 1px solid #1f2937 !important;
                   border-radius: 8px !important;
                   font-size: 16px !important;
                   line-height: 1.5 !important;
-                  color: #111827 !important;
-                  background-color: #ffffff !important;
+                  color: #f3f4f6 !important;
+                  background-color: #0e0f11 !important;
                   transition: all 0.2s ease-in-out !important;
                   -webkit-appearance: none !important;
                   appearance: none !important;
@@ -207,7 +212,8 @@ export default function ContactPage() {
                 .contact-form textarea:focus {
                   outline: none !important;
                   border-color: #3b82f6 !important;
-                  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+                  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+                  background-color: #0e0f11 !important;
                 }
 
                 .contact-form textarea {
@@ -229,10 +235,15 @@ export default function ContactPage() {
                   padding-right: 40px !important;
                 }
 
+                .contact-form select option {
+                  background-color: #0e0f11 !important;
+                  color: #f3f4f6 !important;
+                }
+
                 .contact-form label {
                   display: block !important;
                   font-weight: 600 !important;
-                  color: #374151 !important;
+                  color: #9ca3af !important;
                   margin-bottom: 8px !important;
                   font-size: 14px !important;
                 }
@@ -247,7 +258,7 @@ export default function ContactPage() {
                 .contact-form button[type="submit"] {
                   width: 100% !important;
                   padding: 16px 24px !important;
-                  background-color: #3b82f6 !important;
+                  background-color: #dc2626 !important;
                   color: white !important;
                   border: none !important;
                   border-radius: 8px !important;
@@ -259,7 +270,7 @@ export default function ContactPage() {
                 }
 
                 .contact-form button[type="submit"]:hover:not(:disabled) {
-                  background-color: #2563eb !important;
+                  background-color: #b91c1c !important;
                 }
 
                 @media (min-width: 640px) {
@@ -269,11 +280,18 @@ export default function ContactPage() {
                     min-height: 56px !important;
                   }
                 }
+
+                @media (min-width: 768px) {
+                  .contact-form button[type="submit"] {
+                    width: auto !important;
+                    min-width: 200px !important;
+                  }
+                }
               `}</style>
               <form className="contact-form space-y-4 sm:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                    <label htmlFor="firstName">
                       First Name *
                     </label>
                     <input
@@ -281,12 +299,11 @@ export default function ContactPage() {
                       id="firstName"
                       name="firstName"
                       required
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                       placeholder="Your first name"
                     />
                   </div>
                   <div>
-                    <label htmlFor="lastName" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                    <label htmlFor="lastName">
                       Last Name *
                     </label>
                     <input
@@ -294,14 +311,13 @@ export default function ContactPage() {
                       id="lastName"
                       name="lastName"
                       required
-                      className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                       placeholder="Your last name"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                  <label htmlFor="email">
                     Email Address *
                   </label>
                   <input
@@ -309,33 +325,30 @@ export default function ContactPage() {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                     placeholder="your.email@example.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                  <label htmlFor="phone">
                     Phone Number (Optional)
                   </label>
                   <input
                     type="tel"
                     id="phone"
                     name="phone"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
-                    placeholder="(224) 256-4715"
+                    placeholder="(555) 123-4567"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                  <label htmlFor="subject">
                     What can we help you with? *
                   </label>
                   <select
                     id="subject"
                     name="subject"
                     required
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                   >
                     <option value="">Select a topic</option>
                     <option value="purchase">Looking to Buy Cards</option>
@@ -349,7 +362,7 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm sm:text-base font-medium text-gray-300 mb-2">
+                  <label htmlFor="message">
                     Message *
                   </label>
                   <textarea
@@ -357,22 +370,22 @@ export default function ContactPage() {
                     name="message"
                     rows={4}
                     required
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base resize-vertical"
                     placeholder="Tell us about what you're looking for or how we can help..."
                   ></textarea>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 text-white py-3 sm:py-4 px-6 sm:px-8 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-sm sm:text-base"
-                >
-                  Send Message
-                </button>
+                <div className="flex justify-end pt-4">
+                  <button
+                    type="submit"
+                  >
+                    Send Message
+                  </button>
+                </div>
               </form>
 
-              <p className="text-xs sm:text-sm text-gray-500 mt-4 text-center leading-relaxed">
+              <p className="text-sm text-gray-400 text-center pt-4">
                 * Required fields. We typically respond within 24 hours. For urgent inquiries, 
-                please call or text (224) 256-4715.
+                please call or text (920) 539-6222.
               </p>
             </div>
           </div>
@@ -385,8 +398,8 @@ export default function ContactPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                 </svg>
               </div>
@@ -397,8 +410,8 @@ export default function ContactPage() {
             </div>
 
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
                 </svg>
               </div>
@@ -409,8 +422,8 @@ export default function ContactPage() {
             </div>
 
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -421,8 +434,8 @@ export default function ContactPage() {
             </div>
 
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-yellow-500/10 border border-yellow-500/20 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                 </svg>
               </div>

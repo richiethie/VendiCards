@@ -29,12 +29,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <div className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-2xl border border-gray-800 overflow-hidden hover:border-gray-700/50 hover:bg-gray-800/80 hover:-translate-y-1 transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/20">
+    <div className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-gray-800 overflow-hidden hover:border-gray-700/50 hover:bg-gray-800/80 hover:-translate-y-1 transition-all duration-500 hover:shadow-2xl hover:shadow-gray-900/20">
       {/* Product Image */}
       <div className="aspect-square bg-gradient-to-br from-gray-800 to-gray-900 overflow-hidden relative">
         {firstImage ? (
           <Link href={`/shop/${product.handle}`}>
-            <div className="w-full h-full p-4">
+            <div className="w-full h-full p-2 sm:p-4">
               <Image
                 src={firstImage.url}
                 alt={firstImage.altText || product.title}
@@ -46,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </Link>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-600">
-            <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-12 h-12 sm:w-20 sm:h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -59,31 +59,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Product Info */}
-      <div className="p-5 space-y-3">
-        {/* Product Type & Vendor */}
-        <div className="flex items-center justify-between text-xs">
-          {product.productType && (
-            <span className="text-gray-400 uppercase tracking-wider font-medium">
-              {product.productType}
-            </span>
-          )}
-          {product.vendor && (
-            <span className="text-gray-500">
-              by {product.vendor}
-            </span>
-          )}
-        </div>
+      <div className="p-3 sm:p-5 space-y-2 sm:space-y-3">
+        {/* Vendor */}
+        {product.vendor && (
+          <div className="text-[10px] sm:text-xs text-gray-500">
+            by {product.vendor}
+          </div>
+        )}
 
         {/* Product Title */}
         <Link href={`/shop/${product.handle}`}>
-          <h3 className="text-lg font-semibold text-white hover:text-blue-400 transition-colors line-clamp-2 leading-snug">
+          <h3 className="text-sm sm:text-lg font-semibold text-white hover:text-red-400 transition-colors line-clamp-2 leading-tight sm:leading-snug min-h-[2.5rem] sm:min-h-0">
             {product.title}
           </h3>
         </Link>
 
         {/* Price & Availability */}
-        <div className="flex items-center justify-between mt-4">
-          <div className="text-xl font-bold text-white">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 pt-1 sm:pt-0">
+          <div className="text-base sm:text-xl font-bold text-white">
             {product.priceRange.minVariantPrice.amount === product.priceRange.maxVariantPrice.amount ? (
               formatMoney(product.priceRange.minVariantPrice)
             ) : (
@@ -95,13 +88,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
           
           {isAvailable ? (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 w-fit">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-500 rounded-full animate-pulse"></div>
               In Stock
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/30">
-              <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/30 w-fit">
+              <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-red-500 rounded-full"></div>
               Out of Stock
             </span>
           )}

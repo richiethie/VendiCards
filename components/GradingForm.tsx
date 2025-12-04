@@ -1,31 +1,40 @@
 'use client';
 
 import React, { useState } from 'react';
-import { RepairRequest } from '@/types/shopify';
 import Input from './ui/Input';
 import Select from './ui/Select';
 import Button from './ui/Button';
 
-interface FormProps {
-  onSubmit: (data: RepairRequest) => Promise<void>;
+export interface GradingRequest {
+  name: string;
+  email: string;
+  phone: string;
+  cardDescription: string;
+  gradingTier: string;
+  cardNotes: string;
+  preferredContactMethod: 'email' | 'phone';
+}
+
+interface GradingFormProps {
+  onSubmit: (data: GradingRequest) => Promise<void>;
   isLoading?: boolean;
 }
 
-const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
-  const [formData, setFormData] = useState<RepairRequest>({
+const GradingForm: React.FC<GradingFormProps> = ({ onSubmit, isLoading = false }) => {
+  const [formData, setFormData] = useState<GradingRequest>({
     name: '',
     email: '',
     phone: '',
-    itemDescription: '',
-    issueDescription: '',
+    cardDescription: '',
+    gradingTier: 'standard',
+    cardNotes: '',
     preferredContactMethod: 'email',
-    urgency: 'medium',
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof RepairRequest, string>>>({});
+  const [errors, setErrors] = useState<Partial<Record<keyof GradingRequest, string>>>({});
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof RepairRequest, string>> = {};
+    const newErrors: Partial<Record<keyof GradingRequest, string>> = {};
 
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
@@ -41,19 +50,19 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
       newErrors.phone = 'Phone number is required';
     }
 
-    if (!formData.itemDescription.trim()) {
-      newErrors.itemDescription = 'Card description is required';
+    if (!formData.cardDescription.trim()) {
+      newErrors.cardDescription = 'Card description is required';
     }
 
-    if (!formData.issueDescription.trim()) {
-      newErrors.issueDescription = 'Damage description is required';
+    if (!formData.gradingTier) {
+      newErrors.gradingTier = 'Grading tier is required';
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (field: keyof RepairRequest, value: string) => {
+  const handleInputChange = (field: keyof GradingRequest, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
@@ -73,10 +82,10 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
     }
   };
 
-  const urgencyOptions = [
-    { value: 'low', label: 'Low - No rush needed' },
-    { value: 'medium', label: 'Medium - Within 1-2 weeks' },
-    { value: 'high', label: 'High - As soon as possible' },
+  const gradingTierOptions = [
+    { value: 'standard', label: 'Standard - Regular processing time' },
+    { value: 'express', label: 'Express - Faster processing' },
+    { value: 'super-express', label: 'Super Express - Fastest processing' },
   ];
 
   const contactMethodOptions = [
@@ -188,7 +197,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
         .mobile-form button[type="submit"] {
           width: 100% !important;
           padding: 16px 24px !important;
-          background-color: #3b82f6 !important;
+          background-color: #dc2626 !important;
           color: white !important;
           border: none !important;
           border-radius: 8px !important;
@@ -200,12 +209,7 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
         }
 
         .mobile-form button[type="submit"]:hover:not(:disabled) {
-          background-color: #2563eb !important;
-        }
-
-        .mobile-form button[type="submit"]:disabled {
-          background-color: #9ca3af !important;
-          cursor: not-allowed !important;
+          background-color: #b91c1c !important;
         }
 
         @media (min-width: 640px) {
@@ -359,76 +363,57 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
           <h3 className="section-title">Card Information</h3>
           <div className="space-y-4 sm:space-y-5">
             <div className="field-group">
-              <label htmlFor="itemDescription" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="cardDescription" className="block text-sm font-medium text-gray-700 mb-2">
                 Card Description *
               </label>
               <input
-                id="itemDescription"
+                id="cardDescription"
                 type="text"
-                value={formData.itemDescription}
-                onChange={(e) => handleInputChange('itemDescription', e.target.value)}
-                className={errors.itemDescription ? 'error-input' : ''}
+                value={formData.cardDescription}
+                onChange={(e) => handleInputChange('cardDescription', e.target.value)}
+                className={errors.cardDescription ? 'error-input' : ''}
                 placeholder="e.g., 1999 Pokémon Charizard Base Set, 2019 Pokémon Hidden Fates Charizard GX SV49/SV94"
                 required
               />
-              {errors.itemDescription && (
-                <p className="error-text">{errors.itemDescription}</p>
+              {errors.cardDescription && (
+                <p className="error-text">{errors.cardDescription}</p>
+              )}
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="gradingTier" className="block text-sm font-medium text-gray-700 mb-2">
+                Grading Tier *
+              </label>
+              <select
+                id="gradingTier"
+                value={formData.gradingTier}
+                onChange={(e) => handleInputChange('gradingTier', e.target.value)}
+                className={errors.gradingTier ? 'error-input' : ''}
+                required
+              >
+                {gradingTierOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              {errors.gradingTier && (
+                <p className="error-text">{errors.gradingTier}</p>
               )}
             </div>
             
             <div className="field-group">
-              <label htmlFor="issueDescription" className="block text-sm font-medium text-gray-700 mb-2">
-                Damage Description *
+              <label htmlFor="cardNotes" className="block text-sm font-medium text-gray-700 mb-2">
+                Card Notes (Optional)
               </label>
               <textarea
-                id="issueDescription"
-                value={formData.issueDescription}
-                onChange={(e) => handleInputChange('issueDescription', e.target.value)}
+                id="cardNotes"
+                value={formData.cardNotes}
+                onChange={(e) => handleInputChange('cardNotes', e.target.value)}
                 rows={4}
-                className={errors.issueDescription ? 'error-input' : ''}
-                placeholder="Describe the damage in detail (e.g., corner wear, surface scratches, centering issues, creases, stains)"
-                required
+                placeholder="Any details about the card (e.g., swirls in the holo, whitening, edge wear, surface scratches, centering issues, etc.)"
               />
-              {errors.issueDescription && (
-                <p className="error-text">{errors.issueDescription}</p>
-              )}
             </div>
-          </div>
-        </div>
-
-        {/* Service Preferences */}
-        <div className="form-section">
-          <h3 className="section-title">Service Preferences</h3>
-          <div className="field-group">
-            <label htmlFor="urgency" className="block text-sm font-medium text-gray-700 mb-2">
-              Urgency Level *
-            </label>
-            <select
-              id="urgency"
-              value={formData.urgency}
-              onChange={(e) => handleInputChange('urgency', e.target.value)}
-            >
-              {urgencyOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Additional Notes */}
-        <div className="form-section">
-          <h3 className="section-title">Additional Information</h3>
-          <div className="field-group">
-            <label htmlFor="additionalNotes" className="block text-sm font-medium text-gray-700 mb-2">
-              Additional Notes (Optional)
-            </label>
-            <textarea
-              id="additionalNotes"
-              rows={3}
-              placeholder="Any additional information about the card's condition, estimated value, or special handling requirements"
-            />
           </div>
         </div>
 
@@ -438,17 +423,18 @@ const Form: React.FC<FormProps> = ({ onSubmit, isLoading = false }) => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? 'Submitting...' : 'Submit Repair Request'}
+            {isLoading ? 'Submitting...' : 'Submit Grading Request'}
           </button>
         </div>
 
         {/* Form Note */}
         <p className="text-sm text-gray-400 text-center pt-4">
-          * Required fields. We'll contact you within 24-48 hours to discuss your card repair request and provide a detailed quote.
+          * Required fields. We'll contact you within 24-48 hours to discuss your grading request and provide next steps.
         </p>
       </form>
     </>
   );
 };
 
-export default Form;
+export default GradingForm;
+

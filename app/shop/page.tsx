@@ -136,7 +136,7 @@ function ShopContent() {
       <div className="min-h-screen bg-[#0e0f11] py-12">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-800 p-12 text-center">
-            <div className="w-16 h-16 mx-auto mb-6 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center">
+            <div className="w-16 h-16 mx-auto mb-6 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-center justify-center">
               <Package className="w-8 h-8 text-red-400" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-4">Unable to Load Products</h1>
@@ -145,7 +145,7 @@ function ShopContent() {
             </p>
             <button 
               onClick={() => window.location.reload()}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-emerald-500/25 hover:-translate-y-0.5"
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-red-600/50 hover:-translate-y-0.5"
             >
               Try Again
             </button>
@@ -327,10 +327,10 @@ function ShopContent() {
           ) : (
             <>
               {/* Products Grid */}
-              <div className={`grid gap-6 ${
+              <div className={`grid gap-3 sm:gap-6 ${
                 viewMode === 'large' 
                   ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' 
-                  : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                  : 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
               }`}>
                 {filteredProducts.map((product: ShopifyProduct) => (
                   <ProductCard key={product.id} product={product} />

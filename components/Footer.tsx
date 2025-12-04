@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Star, Phone, Mail, MapPin, Clock } from 'lucide-react';
-import { FaEtsy } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -29,12 +29,12 @@ const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-gray-300 mb-6 max-w-md leading-relaxed text-sm sm:text-base">
-              From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Catch 'em All!
+              From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect 'em all
             </p>
             
             {/* Platform Links - Mobile Optimized */}
             <div className="space-y-3 mb-6">
-              <h4 className="text-base sm:text-lg font-semibold text-white">Shop Our Collection</h4>
+              <h4 className="text-base sm:text-lg font-semibold text-white">Follow Us</h4>
               <div className="grid grid-cols-1 gap-3">
                 <a
                   href="https://www.facebook.com/VendiCardsShop"
@@ -44,20 +44,20 @@ const Footer: React.FC = () => {
                 >
                   <Facebook className="w-5 h-5 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-medium text-white block">Facebook Shop</span>
-                    <span className="text-sm text-gray-400">Full Inventory</span>
+                    <span className="font-medium text-white block">Facebook</span>
+                    <span className="text-sm text-gray-400">Latest Updates & News</span>
                   </div>
                 </a>
                 <a
-                  href="https://www.etsy.com/shop/VendiCardsShop"
+                  href="https://www.instagram.com/vendicards/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center p-3 bg-gray-800 rounded-lg text-gray-300 hover:text-orange-400 hover:bg-gray-700 transition-colors group"
+                  className="flex items-center p-3 bg-gray-800 rounded-lg text-gray-300 hover:text-pink-400 hover:bg-gray-700 transition-colors group"
                 >
-                  <FaEtsy className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <FaInstagram className="w-5 h-5 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-medium text-white block">Etsy Store</span>
-                    <span className="text-sm text-gray-400">Secure Checkout</span>
+                    <span className="font-medium text-white block">Instagram</span>
+                    <span className="text-sm text-gray-400">Follow Us</span>
                   </div>
                 </a>
                 <a
@@ -92,12 +92,17 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Grading Preparation
+                  Professional Appraisal
                 </Link>
               </li>
               <li>
-                <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Professional Appraisal
+                <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Grading Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Grand Opening
                 </Link>
               </li>
               <li>
@@ -110,6 +115,11 @@ const Footer: React.FC = () => {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link href="/location" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Location
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -118,7 +128,7 @@ const Footer: React.FC = () => {
             <h3 className="text-base sm:text-lg font-semibold mb-4 sm:mb-6 text-white">Get in Touch</h3>
             <div className="space-y-4">
               <a 
-                href="tel:+12242564715"
+                href="tel:+19205396222"
                 className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
@@ -126,12 +136,12 @@ const Footer: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-white font-medium">Call Us</p>
-                  <p className="text-gray-300 text-sm">(224) 256-4715</p>
+                  <p className="text-gray-300 text-sm">(920) 539-6222</p>
                 </div>
               </a>
               
               <a 
-                href="mailto:info@vendicards.com"
+                href="mailto:vendicards@gmail.com"
                 className="flex items-center p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
               >
                 <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
@@ -139,7 +149,7 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-white font-medium">Email</p>
-                  <p className="text-gray-300 text-sm truncate">info@vendicards.com</p>
+                  <p className="text-gray-300 text-sm truncate">vendicards@gmail.com</p>
                 </div>
               </a>
 
@@ -171,14 +181,20 @@ const Footer: React.FC = () => {
               <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Restoration
               </Link>
-              <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
-                Grading Prep
-              </Link>
               <Link href="/about" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 About Us
               </Link>
+              <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+                Grading
+              </Link>
+              <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+                Grand Opening
+              </Link>
               <Link href="/contact" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Contact
+              </Link>
+              <Link href="/location" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+                Location
               </Link>
               <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Appraisal

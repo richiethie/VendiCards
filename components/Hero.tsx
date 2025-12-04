@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative bg-black overflow-hidden py-24 md:py-32 lg:py-40">
+    <section className="relative bg-black overflow-hidden pt-8 pb-24 md:py-32 lg:py-40">
       
       {/* Full Screen Video Background - Desktop */}
       <video

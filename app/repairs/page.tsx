@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Form from '@/components/Form';
 import { RepairRequest } from '@/types/shopify';
-import { FaEtsy } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
 
 export default function RepairsPage() {
   const handleSubmit = async (data: RepairRequest) => {
@@ -66,46 +66,95 @@ export default function RepairsPage() {
           <h2 className="text-xl lg:text-3xl text-center font-bold text-white mb-8">Our Expert Services</h2>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
-            <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Card Evaluation</h3>
-              <div className="space-y-3 text-gray-400 text-sm sm:text-base">
-                <p className="leading-relaxed">
-                  All cards under evaluation are subjected to a minimum of 12x magnification 
-                  with up to 2000x magnification imaging available after October 2025.
-                </p>
-                <p className="leading-relaxed">
-                  Centering and flaws will be documented and a full custom report will be 
-                  available for $5 starting in 2026.
-                </p>
-                <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 sm:p-4 mt-4">
-                  <p className="text-red-300 font-semibold text-sm sm:text-base">
-                    Current Rate: $1 per card evaluation (through 2025)
+            {/* Card Evaluation Section */}
+            <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 rounded-xl border border-gray-700/50 p-6 sm:p-8">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 bg-gray-700/30 border border-gray-600/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-white">Card Evaluation</h3>
+              </div>
+              <div className="space-y-4 text-gray-300 text-sm sm:text-base">
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="leading-relaxed">
+                    All cards under evaluation are subjected to a minimum of <span className="font-semibold text-white">12x magnification</span> 
+                    with up to <span className="font-semibold text-white">2000x magnification imaging</span> available after October 2025.
                   </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="leading-relaxed">
+                    Centering and flaws will be documented and a full custom report will be 
+                    available for $5 starting in 2026.
+                  </p>
+                </div>
+                <div className="bg-gray-800/40 border border-gray-700/50 rounded-lg p-4 mt-6 backdrop-blur-sm">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-gray-400 text-xs sm:text-sm mb-1">Current Rate</p>
+                      <p className="text-white font-bold text-lg sm:text-xl">$1 per card</p>
+                    </div>
+                    <p className="text-gray-500 text-xs sm:text-sm font-medium">Through 2025</p>
+                  </div>
                 </div>
               </div>
             </div>
             
+            {/* Card Repair Pricing Section */}
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">Card Repair Pricing</h3>
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 bg-gray-700/30 border border-gray-600/50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-bold text-white">Card Repair Pricing</h3>
+              </div>
               <div className="space-y-4">
-                <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                  All cards are priced on a case-by-case basis using a 72-hour labor framework.
-                </p>
+                <div className="bg-gray-800/40 border border-gray-700/50 rounded-xl p-4 sm:p-5 hover:border-gray-600/70 transition-all duration-300">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <p className="text-white font-bold text-base sm:text-lg mb-1">In-House Services</p>
+                      <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">Simple card cleaning, grading prep, scratch reduction</p>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-700/50">
+                    <p className="text-red-400 font-bold text-xl sm:text-2xl">$15 <span className="text-sm font-normal text-gray-300">per card</span></p>
+                  </div>
+                </div>
                 
-                <div className="space-y-3">
-                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 sm:p-4">
-                    <p className="text-red-300 font-semibold text-sm sm:text-base">Cards under $100 value</p>
-                    <p className="text-red-200 text-xs sm:text-sm">$5 per 72 hours of labor</p>
+                <div className="bg-gray-800/40 border border-gray-700/50 rounded-xl p-4 sm:p-5 hover:border-gray-600/70 transition-all duration-300">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <p className="text-white font-bold text-base sm:text-lg mb-1">Severe Card Repair</p>
+                      <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-2">Sent out for professional repair</p>
+                      <p className="text-gray-500 text-xs italic">1-2 weeks turnaround (depending on severity and value)</p>
+                    </div>
                   </div>
-                  
-                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-3 sm:p-4">
-                    <p className="text-yellow-300 font-semibold text-sm sm:text-base">Cards $100-$500 value</p>
-                    <p className="text-yellow-200 text-xs sm:text-sm">$10 per 72 hours of labor</p>
+                  <div className="mt-3 pt-3 border-t border-gray-700/50">
+                    <p className="text-red-400 font-bold text-xl sm:text-2xl">Starting at $25 <span className="text-sm font-normal text-gray-300">per card</span></p>
+                    <p className="text-gray-500 text-xs sm:text-sm mt-1">+ Insured shipping (optional)</p>
                   </div>
-                  
-                  <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3 sm:p-4">
-                    <p className="text-orange-300 font-semibold text-sm sm:text-base">Cards over $500 value</p>
-                    <p className="text-orange-200 text-xs sm:text-sm">$15 per 72 hours of labor or 10% of value gain (whichever is higher)</p>
+                </div>
+                
+                <div className="bg-gray-800/40 border border-gray-700/50 rounded-xl p-4 sm:p-5 hover:border-gray-600/70 transition-all duration-300">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex-1">
+                      <p className="text-white font-bold text-base sm:text-lg mb-3">Rush Services</p>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between pb-2 border-b border-gray-700/50">
+                          <p className="text-gray-400 text-sm font-medium">Medium Rush</p>
+                          <p className="text-red-400 font-bold text-lg">$40+</p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-gray-400 text-sm font-medium">ASAP</p>
+                          <p className="text-red-400 font-bold text-lg">$50+</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -121,7 +170,7 @@ export default function RepairsPage() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <span className="text-red-400 font-bold text-lg sm:text-xl">1</span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Submit Request</h3>
@@ -131,7 +180,7 @@ export default function RepairsPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <span className="text-red-400 font-bold text-lg sm:text-xl">2</span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Professional Evaluation</h3>
@@ -141,7 +190,7 @@ export default function RepairsPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <span className="text-red-400 font-bold text-lg sm:text-xl">3</span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Expert Repair</h3>
@@ -151,7 +200,7 @@ export default function RepairsPage() {
             </div>
             
             <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <span className="text-red-400 font-bold text-lg sm:text-xl">4</span>
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">Quality Inspection</h3>
@@ -194,6 +243,32 @@ export default function RepairsPage() {
           </div>
         </div>
 
+        {/* Important Disclaimer */}
+        <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-red-500/30 p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 md:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Important Information
+          </h2>
+          <div className="space-y-3 text-gray-300 leading-relaxed text-sm sm:text-base">
+            <p>
+              Please note that <span className="font-semibold text-white">not all card repairs are fixable</span>. 
+              Certain types of damage, such as whitening, cannot be repaired with our current methods.
+            </p>
+            <p>
+              Our repair techniques have been extensively tested and have successfully passed authentication 
+              by PSA and Beckett without being flagged as altered. However, <span className="font-semibold text-white">
+              we cannot guarantee that these methods will continue to pass future authentication standards</span>, 
+              as grading companies may update their detection methods over time.
+            </p>
+            <p className="text-red-300 italic">
+              We recommend discussing your specific card and repair needs with our team to determine the 
+              best course of action for your collectible.
+            </p>
+          </div>
+        </div>
+
         {/* Repair Request Form */}
         <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 p-4 sm:p-6 md:p-8 mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 sm:mb-4">Request a Repair Quote</h2>
@@ -215,16 +290,16 @@ export default function RepairsPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 sm:mb-12 px-4">
             <a
-              href="tel:+15551234567"
+              href="tel:+19205396222"
               className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-sm sm:text-base"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
-              Call (555) 123-4567
+              Call (920) 539-6222
             </a>
             <a
-              href="mailto:repairs@vendicards.com"
+              href="mailto:vendicards@gmail.com"
               className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border-2 border-gray-700 text-white rounded-lg hover:bg-white/10 transition-colors font-semibold text-sm sm:text-base"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -242,8 +317,8 @@ export default function RepairsPage() {
               <span>Facebook: VendiCardsShop</span>
             </div>
             <div className="flex items-center gap-2">
-              <FaEtsy className="w-3 sm:w-4 h-3 sm:h-4" />
-              <span>Etsy: VendiCardsShop</span>
+              <FaInstagram className="w-3 sm:w-4 h-3 sm:h-4" />
+              <span>Instagram: @vendicards</span>
             </div>
           </div>
         </div>

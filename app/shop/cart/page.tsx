@@ -134,7 +134,7 @@ export default function CartPage() {
             <p className="text-gray-400 mb-6">{cartState.error}</p>
             <button 
               onClick={() => window.location.reload()}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
             >
               Try Again
             </button>
@@ -188,7 +188,7 @@ export default function CartPage() {
             
             <Link 
               href="/shop"
-              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="inline-block bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Continue Shopping
             </Link>
@@ -232,7 +232,7 @@ export default function CartPage() {
             <button
               onClick={clearCart}
               disabled={cartState.isLoading}
-              className="text-sm text-gray-400 border border-gray-400 rounded-md p-2 cursor-pointer hover:text-blue-500 hover:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm text-gray-400 border border-gray-400 rounded-md p-2 cursor-pointer hover:text-red-400 hover:border-red-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {cartState.isLoading ? 'Clearing...' : 'Clear all'}
             </button>
@@ -276,11 +276,11 @@ export default function CartPage() {
                       <div className="flex justify-between items-start mb-2">
                         <div className="flex-1 min-w-0 pr-2">
                           <h3 className="text-base font-semibold text-white mb-1 leading-tight">
-                            <Link href={`/shop/${item.handle}`} className="hover:text-blue-400 transition-colors">
+                            <Link href={`/shop/${item.handle}`} className="hover:text-red-400 transition-colors">
                               {item.title}
                             </Link>
                           </h3>
-                          <p className="text-lg font-bold text-blue-400">
+                          <p className="text-lg font-bold text-white">
                             {formatPrice(item.price.amount, item.price.currencyCode)}
                           </p>
                         </div>
@@ -392,11 +392,11 @@ export default function CartPage() {
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1 min-w-0 pr-2">
                         <h3 className="text-lg font-semibold text-white mb-1 line-clamp-2">
-                          <Link href={`/shop/${item.handle}`} className="hover:text-blue-400 transition-colors">
+                          <Link href={`/shop/${item.handle}`} className="hover:text-red-400 transition-colors">
                             {item.title}
                           </Link>
                         </h3>
-                        <p className="text-xl font-bold text-blue-400">
+                        <p className="text-xl font-bold text-white">
                           {formatPrice(item.price.amount, item.price.currencyCode)}
                         </p>
                       </div>
@@ -483,7 +483,7 @@ export default function CartPage() {
             <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg shadow-sm border border-gray-800 p-4 sm:p-6">
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center sm:justify-start gap-2 text-blue-400 hover:text-blue-300 transition-colors font-medium w-full sm:w-auto"
+                className="inline-flex items-center justify-center sm:justify-start gap-2 text-red-400 hover:text-red-300 transition-colors font-medium w-full sm:w-auto"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -526,7 +526,7 @@ export default function CartPage() {
               <button
                 onClick={goToCheckout}
                 disabled={!cartState.checkoutUrl || cartState.items.length === 0}
-                className="w-full mt-6 cursor-pointer bg-blue-600 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors shadow-sm hover:shadow-md text-base sm:text-base"
+                className="w-full mt-6 cursor-pointer bg-red-600 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg font-semibold hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors shadow-sm hover:shadow-md text-base sm:text-base"
               >
                 Proceed to Checkout
               </button>

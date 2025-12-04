@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { env } from '@/lib/env';
 import { logger } from '@/lib/logger';
 import { RepairRequest } from '@/types/shopify';
+import { GradingRequest } from '@/components/GradingForm';
 
 // Create transporter for sending emails
 const createTransporter = () => {
@@ -84,8 +85,8 @@ const getRepairRequestConfirmationEmail = (repairRequest: RepairRequest, request
         
         <div class="footer">
           <p>VendiCards<br>
-          Phone: (555) 123-4567<br>
-          Email: info@vendicards.com</p>
+          Phone: (920) 539-6222<br>
+          Email: vendicards@gmail.com</p>
         </div>
       </div>
     </body>
@@ -112,8 +113,8 @@ const getRepairRequestConfirmationEmail = (repairRequest: RepairRequest, request
     If you have any questions, please don't hesitate to contact us.
     
     VendiCards
-    Phone: (555) 123-4567
-    Email: info@vendicards.com
+    Phone: (920) 539-6222
+    Email: vendicards@gmail.com
   `,
 });
 
@@ -231,7 +232,7 @@ export async function sendRepairRequestConfirmation(
 export async function sendRepairRequestNotification(
   repairRequest: RepairRequest,
   requestId: string,
-  staffEmail: string = env.SMTP_USER || 'admin@vendicards.com'
+  staffEmail: string = env.SMTP_USER || 'vendicards@gmail.com'
 ): Promise<boolean> {
   try {
     const transporter = createTransporter();
@@ -261,6 +262,260 @@ export async function sendRepairRequestEmails(
 ): Promise<{ customerEmailSent: boolean; staffEmailSent: boolean }> {
   const customerEmailSent = await sendRepairRequestConfirmation(repairRequest, requestId);
   const staffEmailSent = await sendRepairRequestNotification(repairRequest, requestId, staffEmail);
+  
+  return { customerEmailSent, staffEmailSent };
+}
+
+// Grading Request Email Templates
+const getGradingRequestConfirmationEmail = (gradingRequest: GradingRequest, requestId: string) => ({
+  subject: 'Grading Request Confirmation - VendiCards',
+  html: `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Grading Request Confirmation</title>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #dc2626; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f9fafb; }
+        .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+        .request-id { background-color: #e0f2fe; padding: 10px; border-radius: 5px; margin: 20px 0; }
+        .details { background-color: white; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .detail-row { margin: 10px 0; }
+        .label { font-weight: bold; color: #374151; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>VendiCards</h1>
+          <h2>Grading Request Confirmation</h2>
+        </div>
+        
+        <div class="content">
+          <p>Thank you for submitting your grading request. We've received your submission and will review it shortly.</p>
+          
+          <div class="request-id">
+            <strong>Request ID:</strong> ${requestId}
+          </div>
+          
+          <div class="details">
+            <h3>Request Details:</h3>
+            <div class="detail-row">
+              <span class="label">Name:</span> ${gradingRequest.name}
+            </div>
+            <div class="detail-row">
+              <span class="label">Email:</span> ${gradingRequest.email}
+            </div>
+            <div class="detail-row">
+              <span class="label">Phone:</span> ${gradingRequest.phone}
+            </div>
+            <div class="detail-row">
+              <span class="label">Card Description:</span> ${gradingRequest.cardDescription}
+            </div>
+            <div class="detail-row">
+              <span class="label">Grading Tier:</span> ${gradingRequest.gradingTier}
+            </div>
+            ${gradingRequest.cardNotes ? `
+            <div class="detail-row">
+              <span class="label">Card Notes:</span> ${gradingRequest.cardNotes}
+            </div>
+            ` : ''}
+            <div class="detail-row">
+              <span class="label">Preferred Contact Method:</span> ${gradingRequest.preferredContactMethod}
+            </div>
+          </div>
+          
+          <p>We will contact you within 24-48 hours to discuss your grading request and provide next steps.</p>
+          
+          <p>If you have any questions, please don't hesitate to contact us.</p>
+        </div>
+        
+        <div class="footer">
+          <p>VendiCards<br>
+          Phone: (920) 539-6222<br>
+          Email: vendicards@gmail.com</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `,
+  text: `
+    Grading Request Confirmation - VendiCards
+    
+    Thank you for submitting your grading request. We've received your submission and will review it shortly.
+    
+    Request ID: ${requestId}
+    
+    Request Details:
+    Name: ${gradingRequest.name}
+    Email: ${gradingRequest.email}
+    Phone: ${gradingRequest.phone}
+    Card Description: ${gradingRequest.cardDescription}
+    Grading Tier: ${gradingRequest.gradingTier}
+    ${gradingRequest.cardNotes ? `Card Notes: ${gradingRequest.cardNotes}\n` : ''}
+    Preferred Contact Method: ${gradingRequest.preferredContactMethod}
+    
+    We will contact you within 24-48 hours to discuss your grading request and provide next steps.
+    
+    VendiCards
+    Phone: (920) 539-6222
+    Email: vendicards@gmail.com
+  `,
+});
+
+const getGradingRequestNotificationEmail = (gradingRequest: GradingRequest, requestId: string) => ({
+  subject: `New Grading Request #${requestId} - VendiCards`,
+  html: `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>New Grading Request</title>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #dc2626; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f9fafb; }
+        .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+        .request-id { background-color: #fef2f2; padding: 10px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #dc2626; }
+        .details { background-color: white; padding: 20px; border-radius: 5px; margin: 20px 0; }
+        .detail-row { margin: 10px 0; }
+        .label { font-weight: bold; color: #374151; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>New Grading Request</h1>
+          <h2>Request ID: ${requestId}</h2>
+        </div>
+        
+        <div class="content">
+          <div class="request-id">
+            <strong>Action Required:</strong> Please review this request and contact the customer within 24 hours.
+          </div>
+          
+          <div class="details">
+            <h3>Customer Information:</h3>
+            <div class="detail-row">
+              <span class="label">Name:</span> ${gradingRequest.name}
+            </div>
+            <div class="detail-row">
+              <span class="label">Email:</span> ${gradingRequest.email}
+            </div>
+            <div class="detail-row">
+              <span class="label">Phone:</span> ${gradingRequest.phone}
+            </div>
+            <div class="detail-row">
+              <span class="label">Preferred Contact:</span> ${gradingRequest.preferredContactMethod}
+            </div>
+          </div>
+          
+          <div class="details">
+            <h3>Card Information:</h3>
+            <div class="detail-row">
+              <span class="label">Card Description:</span> ${gradingRequest.cardDescription}
+            </div>
+            <div class="detail-row">
+              <span class="label">Grading Tier:</span> ${gradingRequest.gradingTier}
+            </div>
+            ${gradingRequest.cardNotes ? `
+            <div class="detail-row">
+              <span class="label">Card Notes:</span> ${gradingRequest.cardNotes}
+            </div>
+            ` : ''}
+          </div>
+          
+          <p><strong>Action Required:</strong> Please review this request and contact the customer within 24 hours.</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `,
+  text: `
+    New Grading Request - VendiCards
+    
+    Request ID: ${requestId}
+    
+    Customer Information:
+    - Name: ${gradingRequest.name}
+    - Email: ${gradingRequest.email}
+    - Phone: ${gradingRequest.phone}
+    - Preferred Contact: ${gradingRequest.preferredContactMethod}
+    
+    Card Information:
+    - Card Description: ${gradingRequest.cardDescription}
+    - Grading Tier: ${gradingRequest.gradingTier}
+    ${gradingRequest.cardNotes ? `- Card Notes: ${gradingRequest.cardNotes}\n` : ''}
+    
+    Action Required: Please review this request and contact the customer within 24 hours.
+  `,
+});
+
+// Send grading request confirmation email to customer
+export async function sendGradingRequestConfirmation(
+  gradingRequest: GradingRequest,
+  requestId: string
+): Promise<boolean> {
+  try {
+    const transporter = createTransporter();
+    const emailContent = getGradingRequestConfirmationEmail(gradingRequest, requestId);
+    
+    await transporter.sendMail({
+      from: `"VendiCards" <${env.SMTP_USER}>`,
+      to: gradingRequest.email,
+      subject: emailContent.subject,
+      html: emailContent.html,
+      text: emailContent.text,
+    });
+    
+    logger.info('Grading request confirmation email sent', { requestId, customerEmail: gradingRequest.email });
+    return true;
+  } catch (error) {
+    logger.error('Failed to send grading request confirmation email', error as Error, { requestId });
+    return false;
+  }
+}
+
+// Send grading request notification email to staff
+export async function sendGradingRequestNotification(
+  gradingRequest: GradingRequest,
+  requestId: string,
+  staffEmail: string = env.SMTP_USER || 'vendicards@gmail.com'
+): Promise<boolean> {
+  try {
+    const transporter = createTransporter();
+    const emailContent = getGradingRequestNotificationEmail(gradingRequest, requestId);
+    
+    await transporter.sendMail({
+      from: `"VendiCards" <${env.SMTP_USER}>`,
+      to: staffEmail,
+      subject: emailContent.subject,
+      html: emailContent.html,
+      text: emailContent.text,
+    });
+    
+    logger.info('Grading request notification email sent to staff', { requestId, staffEmail });
+    return true;
+  } catch (error) {
+    logger.error('Failed to send grading request notification email', error as Error, { requestId });
+    return false;
+  }
+}
+
+// Send both confirmation and notification emails
+export async function sendGradingRequestEmails(
+  gradingRequest: GradingRequest,
+  requestId: string,
+  staffEmail?: string
+): Promise<{ customerEmailSent: boolean; staffEmailSent: boolean }> {
+  const customerEmailSent = await sendGradingRequestConfirmation(gradingRequest, requestId);
+  const staffEmailSent = await sendGradingRequestNotification(gradingRequest, requestId, staffEmail);
   
   return { customerEmailSent, staffEmailSent };
 }
