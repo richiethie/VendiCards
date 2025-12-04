@@ -34,7 +34,12 @@ export async function POST(request: NextRequest) {
     });
     
     // Send confirmation and notification emails
-    const emailResults = await sendGradingRequestEmails(validatedData, requestId);
+    // Ensure cardNotes is a string (default to empty string if undefined)
+    const gradingRequest = {
+      ...validatedData,
+      cardNotes: validatedData.cardNotes || '',
+    };
+    const emailResults = await sendGradingRequestEmails(gradingRequest, requestId);
     
     // Log email results
     logger.info('Grading request emails sent', {

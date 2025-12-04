@@ -11,7 +11,7 @@ export interface GradingRequest {
   phone: string;
   cardDescription: string;
   gradingTier: string;
-  cardNotes: string;
+  cardNotes?: string;
   preferredContactMethod: 'email' | 'phone';
 }
 
