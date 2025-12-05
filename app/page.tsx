@@ -143,18 +143,33 @@ export default function HomePage() {
            </div>
 
            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-gray-400 text-sm">
-            <div className="flex items-center gap-2">
+            <a
+              href="https://www.facebook.com/p/VendiCards-61577324265476/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-red-400 transition-colors"
+            >
               <Facebook className="w-4 h-4" />
-              <span>Facebook: VendiCardsShop</span>
-            </div>
-            <div className="flex items-center gap-2">
+              <span>Facebook: VendiCards</span>
+            </a>
+            <a
+              href="https://www.instagram.com/vendicards/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-red-400 transition-colors"
+            >
               <FaInstagram className="w-4 h-4" />
               <span>Instagram: @vendicards</span>
-            </div>
-            <div className="flex items-center gap-2">
+            </a>
+            <a
+              href="https://www.whatnot.com/user/vendicards"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-red-400 transition-colors"
+            >
               <Star className="w-4 h-4" />
               <span>WhatNot: vendicards</span>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -188,7 +203,7 @@ export default function HomePage() {
               </summary>
               <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
                 <p className="text-gray-300 leading-relaxed">
-                  Our store is open Monday to Friday from 9am to 5pm and closed on the weekend. However, we are always monitoring the site, reach out whenever and we will get back to you ASAP!
+                  Our store is open Monday to Friday from 3pm to 8pm and closed on the weekend. However, we are always monitoring the site, reach out whenever and we will get back to you ASAP!
                 </p>
               </div>
             </details>

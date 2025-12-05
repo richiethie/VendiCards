@@ -8,7 +8,7 @@ const TrustBadges: React.FC = () => {
     {
       icon: Truck,
       title: 'Free Shipping',
-      description: 'Worldwide shipping - customs and duties taxes excluded',
+      description: 'Free shipping on orders over $100',
     },
     {
       icon: Headphones,

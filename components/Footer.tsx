@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
               <h4 className="text-base sm:text-lg font-semibold text-white">Follow Us</h4>
               <div className="grid grid-cols-1 gap-3">
                 <a
-                  href="https://www.facebook.com/VendiCardsShop"
+                  href="https://www.facebook.com/p/VendiCards-61577324265476/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center p-3 bg-gray-800 rounded-lg text-gray-300 hover:text-blue-400 hover:bg-gray-700 transition-colors group"
@@ -88,11 +88,6 @@ const Footer: React.FC = () => {
               <li>
                 <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Card Restoration
-                </Link>
-              </li>
-              <li>
-                <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Professional Appraisal
                 </Link>
               </li>
               <li>
@@ -195,9 +190,6 @@ const Footer: React.FC = () => {
               </Link>
               <Link href="/location" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Location
-              </Link>
-              <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
-                Appraisal
               </Link>
             </div>
           </div>

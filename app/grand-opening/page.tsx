@@ -295,7 +295,7 @@ export default function GrandOpeningPage() {
               </summary>
               <div className="px-5 sm:px-6 pb-5 sm:pb-6 pt-0">
                 <p className="text-gray-300 leading-relaxed">
-                  Our store is open Monday to Friday from 9am to 5pm and closed on the weekend. However, we are always monitoring the site, reach out whenever and we will get back to you ASAP!
+                  Our store is open Monday to Friday from 3pm to 8pm and closed on the weekend. However, we are always monitoring the site, reach out whenever and we will get back to you ASAP!
                 </p>
               </div>
             </details>

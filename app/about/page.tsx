@@ -40,7 +40,7 @@ export default function AboutPage() {
             <div className="inline-flex items-center px-3 sm:px-4 py-2 bg-primary-900/20 text-primary-400 text-xs sm:text-sm md:text-base font-medium rounded-full mb-4 sm:mb-6 border border-primary-800 max-w-full">
               <div className="w-2 h-2 bg-primary-500 rounded-full mr-2 flex-shrink-0"></div>
               <span className="text-center leading-tight">
-                From sealed product and raw cards to graded gems — Catch 'em All!
+                From sealed product and raw cards to graded gems — Collect 'em all!
               </span>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function AboutPage() {
 
               <p className="leading-relaxed text-sm sm:text-base font-semibold text-gray-300 text-left">
                 Whether you're looking to buy, sell, or restore your cards, VendiCards has everything you need 
-                to build and maintain your collection. We're here to help you catch 'em all!
+                to build and maintain your collection. We're here to help you Collect 'em all!
               </p>
             </div>
           </section>

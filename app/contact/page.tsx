@@ -109,7 +109,7 @@ export default function ContactPage() {
             <h3 className="text-lg sm:text-xl font-bold text-white mb-4">Shop & Follow Us</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <a
-                  href="https://www.facebook.com/VendiCardsShop"
+                  href="https://www.facebook.com/p/VendiCards-61577324265476/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 bg-[#0e0f11] border border-gray-800 rounded-lg p-3 sm:p-4 hover:bg-white/5 transition-colors"

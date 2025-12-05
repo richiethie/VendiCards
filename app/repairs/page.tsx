@@ -135,7 +135,7 @@ export default function RepairsPage() {
                     </div>
                   </div>
                   <div className="mt-3 pt-3 border-t border-gray-700/50">
-                    <p className="text-red-400 font-bold text-xl sm:text-2xl">Starting at $25 <span className="text-sm font-normal text-gray-300">per card</span></p>
+                    <p className="text-red-400 font-bold text-xl sm:text-2xl">$25 <span className="text-sm font-normal text-gray-300">per card</span></p>
                     <p className="text-gray-500 text-xs sm:text-sm mt-1">+ Insured shipping (optional)</p>
                   </div>
                 </div>
@@ -146,12 +146,12 @@ export default function RepairsPage() {
                       <p className="text-white font-bold text-base sm:text-lg mb-3">Rush Services</p>
                       <div className="space-y-3">
                         <div className="flex items-center justify-between pb-2 border-b border-gray-700/50">
-                          <p className="text-gray-400 text-sm font-medium">Medium Rush</p>
-                          <p className="text-red-400 font-bold text-lg">$40+</p>
+                          <p className="text-gray-400 text-sm font-medium">Faster</p>
+                          <p className="text-red-400 font-bold text-lg">$85</p>
                         </div>
                         <div className="flex items-center justify-between">
-                          <p className="text-gray-400 text-sm font-medium">ASAP</p>
-                          <p className="text-red-400 font-bold text-lg">$50+</p>
+                          <p className="text-gray-400 text-sm font-medium">Fastest</p>
+                          <p className="text-red-400 font-bold text-lg">$175</p>
                         </div>
                       </div>
                     </div>
@@ -310,16 +310,26 @@ export default function RepairsPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-blue-200 text-xs sm:text-sm px-4">
-            <div className="flex items-center gap-2">
+            <a
+              href="https://www.facebook.com/p/VendiCards-61577324265476/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-red-400 transition-colors"
+            >
               <svg className="w-3 sm:w-4 h-3 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
-              <span>Facebook: VendiCardsShop</span>
-            </div>
-            <div className="flex items-center gap-2">
+              <span>Facebook: VendiCards</span>
+            </a>
+            <a
+              href="https://www.instagram.com/vendicards/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-red-400 transition-colors"
+            >
               <FaInstagram className="w-3 sm:w-4 h-3 sm:h-4" />
               <span>Instagram: @vendicards</span>
-            </div>
+            </a>
           </div>
         </div>
       </div>

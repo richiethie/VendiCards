@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "VendiCards - Premium Pokémon Cards & Repair Services",
     template: "%s | VendiCards"
   },
-  description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Catch \'em All! We specialize in card repair and restoration.',
+  description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all! We specialize in card repair and restoration.',
   keywords: ['pokemon cards', 'pokemon', 'trading cards', 'card repair', 'card restoration', 'grading preparation', 'authentic cards', 'collectibles', 'tcg', 'vendicards'],
   authors: [{ name: "VendiCards" }],
   creator: "VendiCards",
@@ -41,11 +41,11 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     title: "VendiCards - Premium Pokémon Cards & Repair Services",
-    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Catch \'em All!',
+    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
     siteName: "VendiCards",
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/vendicards_logo.png',
         width: 1200,
         height: 630,
         alt: "VendiCards - Premium Pokémon Cards & Repair Services",
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "VendiCards - Premium Pokémon Cards & Repair Services",
-    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Catch \'em All!',
-    images: ['/og-image.jpg'],
+    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
+    images: ['/images/vendicards_logo.png'],
   },
   robots: {
     index: true,
