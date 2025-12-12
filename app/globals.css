@@ -24,6 +24,19 @@ body {
   color: var(--foreground);
 }
 
+/* Ensure sticky positioning works on mobile */
+html {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Fix for sticky header on mobile Safari */
+header[class*="sticky"] {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  will-change: transform;
+}
+
 /* Hide scrollbar for carousel */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

@@ -305,7 +305,7 @@ function ShopContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0e0f11] pt-16 md:pt-0">
+    <div className="min-h-screen bg-[#0e0f11]">
       {/* Header with Image */}
       <div className="relative bg-[#0e0f11] shadow-sm border-b border-gray-800 overflow-hidden">
         {/* Background Image */}
