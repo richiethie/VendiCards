@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
-import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package } from 'lucide-react';
+import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package, ChevronDown, ChevronUp } from 'lucide-react';
 import { ShopifyProduct } from '@/types/shopify';
 import Link from 'next/link';
 
@@ -17,8 +17,19 @@ function ShopContent() {
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'large'>('grid');
   
+  // Filter states - using arrays for multi-select
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // Temporary filter states for the filter menu (before Apply is clicked)
+  const [tempSelectedCollections, setTempSelectedCollections] = useState<string[]>([]);
+  const [tempSelectedTags, setTempSelectedTags] = useState<string[]>([]);
+  
   const searchParams = useSearchParams();
   const urlSearchQuery = searchParams.get('search');
+  const urlCollection = searchParams.get('collection');
+  const urlTag = searchParams.get('tag');
 
   const sortOptions = [
     { value: 'featured', label: 'Featured' },
@@ -29,22 +40,79 @@ function ShopContent() {
     { value: 'newest', label: 'Newest First' },
   ];
 
-  // Load products on component mount
+  // Initialize filters from URL params
+  useEffect(() => {
+    if (urlCollection) {
+      const collections = urlCollection.split(',').filter(Boolean);
+      setSelectedCollections(collections);
+      setTempSelectedCollections(collections);
+    }
+    if (urlTag) {
+      const tags = urlTag.split(',').filter(Boolean);
+      setSelectedTags(tags);
+      setTempSelectedTags(tags);
+    }
+  }, [urlCollection, urlTag]);
+  
+  // Sync temp filters when filter menu opens
+  useEffect(() => {
+    if (isFilterOpen) {
+      setTempSelectedCollections([...selectedCollections]);
+      setTempSelectedTags([...selectedTags]);
+    }
+  }, [isFilterOpen]);
+
+  // Load products when collections change
   useEffect(() => {
     const loadProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/products');
-        const data = await response.json();
         
-        if (data.success) {
-          setProducts(data.products);
-          setFilteredProducts(data.products);
+        let allProducts: ShopifyProduct[] = [];
+        
+        // If collections are selected, fetch products for each collection
+        if (selectedCollections.length > 0) {
+          const collectionHandleMap: Record<string, string> = {
+            'pokemon': 'pokemon',
+            'one-piece': 'one-piece',
+            'accessories': 'accessories',
+          };
+          
+          // Fetch products for each selected collection
+          const fetchPromises = selectedCollections.map(async (collection) => {
+            const handle = collectionHandleMap[collection] || collection;
+            const response = await fetch(`/api/products?limit=100&collection=${encodeURIComponent(handle)}`);
+            const data = await response.json();
+            return data.success ? data.products : [];
+          });
+          
+          const productArrays = await Promise.all(fetchPromises);
+          
+          // Combine products and remove duplicates by ID
+          const productMap = new Map<string, ShopifyProduct>();
+          productArrays.flat().forEach((product: ShopifyProduct) => {
+            if (!productMap.has(product.id)) {
+              productMap.set(product.id, product);
+            }
+          });
+          
+          allProducts = Array.from(productMap.values());
         } else {
-          setError(data.message || 'Failed to load products');
+          // No collections selected, fetch all products
+          const response = await fetch('/api/products?limit=100');
+          const data = await response.json();
+          
+          if (data.success) {
+            allProducts = data.products;
+          } else {
+            throw new Error(data.message || 'Failed to load products');
+          }
         }
-      } catch (err) {
-        setError('Failed to load products');
+        
+        setProducts(allProducts);
+      } catch (err: any) {
+        const errorMessage = err.message || 'Failed to load products';
+        setError(errorMessage);
         console.error('Failed to load products:', err);
       } finally {
         setIsLoading(false);
@@ -52,17 +120,32 @@ function ShopContent() {
     };
 
     loadProducts();
-  }, []);
+  }, [selectedCollections]);
 
-  // Handle search query from URL or local state
+  // Apply filters (tags + search) when they change
+  // Note: Collection filtering is done server-side when loading products
   useEffect(() => {
+    let filtered = products;
+    
+    // Apply tag filter if any selected
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter((product: ShopifyProduct) =>
+        product.tags.some(tag => 
+          selectedTags.some(selectedTag => 
+            tag.toLowerCase() === selectedTag.toLowerCase()
+          )
+        )
+      );
+    }
+    
+    // Apply search filter if query exists
     const query = urlSearchQuery || searchQuery;
     if (query) {
-      filterProducts(query);
-    } else {
-      setFilteredProducts(products);
+      filtered = filterProductsByQuery(filtered, query);
     }
-  }, [urlSearchQuery, searchQuery, products]);
+    
+    setFilteredProducts(filtered);
+  }, [selectedTags, products, urlSearchQuery, searchQuery]);
 
   // Sort products when sortBy changes
   useEffect(() => {
@@ -100,21 +183,75 @@ function ShopContent() {
     setFilteredProducts(sortedProducts);
   }, [sortBy]);
 
-  const filterProducts = (query: string) => {
+  const filterProductsByQuery = (productList: ShopifyProduct[], query: string): ShopifyProduct[] => {
     if (!query.trim()) {
-      setFilteredProducts(products);
-      return;
+      return productList;
     }
 
     const lowerQuery = query.toLowerCase();
-    const filtered = products.filter(product => 
+    return productList.filter(product => 
       product.title.toLowerCase().includes(lowerQuery) ||
       product.description.toLowerCase().includes(lowerQuery) ||
       product.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) ||
       product.productType.toLowerCase().includes(lowerQuery)
     );
-    
+  };
+
+  const filterProducts = (query: string) => {
+    const filtered = filterProductsByQuery(filteredProducts, query);
     setFilteredProducts(filtered);
+  };
+
+  // Toggle collection in temp filters (for filter menu)
+  const toggleTempCollection = (collection: string) => {
+    setTempSelectedCollections(prev => {
+      if (prev.includes(collection)) {
+        const newSelections = prev.filter(c => c !== collection);
+        return newSelections.length === 0 ? [] : newSelections;
+      } else {
+        return [...prev, collection];
+      }
+    });
+  };
+
+  // Toggle tag in temp filters (for filter menu)
+  const toggleTempTag = (tag: string) => {
+    setTempSelectedTags(prev => {
+      if (prev.includes(tag)) {
+        const newSelections = prev.filter(t => t !== tag);
+        return newSelections.length === 0 ? [] : newSelections;
+      } else {
+        return [...prev, tag];
+      }
+    });
+  };
+
+  // Apply filters (called when Apply button is clicked)
+  const applyFilters = () => {
+    setSelectedCollections([...tempSelectedCollections]);
+    setSelectedTags([...tempSelectedTags]);
+    updateURLParams(tempSelectedCollections, tempSelectedTags);
+    setIsFilterOpen(false);
+  };
+
+  // Clear all filters
+  const clearAllFilters = () => {
+    setTempSelectedCollections([]);
+    setTempSelectedTags([]);
+    setSelectedCollections([]);
+    setSelectedTags([]);
+    updateURLParams([], []);
+  };
+
+  // Update URL params
+  const updateURLParams = (collections: string[], tags: string[]) => {
+    const params = new URLSearchParams();
+    if (collections.length > 0) params.set('collection', collections.join(','));
+    if (tags.length > 0) params.set('tag', tags.join(','));
+    if (urlSearchQuery || searchQuery) params.set('search', urlSearchQuery || searchQuery || '');
+    
+    const newUrl = params.toString() ? `/shop?${params.toString()}` : '/shop';
+    window.history.pushState({}, '', newUrl);
   };
 
   const handleSearch = (query: string) => {
@@ -124,11 +261,23 @@ function ShopContent() {
 
   const clearSearch = () => {
     setSearchQuery('');
-    setFilteredProducts(products);
-    // Clear URL search param
-    if (urlSearchQuery) {
-      window.history.replaceState({}, '', '/shop');
+    // Reapply filters without search
+    let filtered = products;
+    
+    // Apply tag filters
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter((product: ShopifyProduct) =>
+        product.tags.some(tag => 
+          selectedTags.some(selectedTag => 
+            tag.toLowerCase() === selectedTag.toLowerCase()
+          )
+        )
+      );
     }
+    
+    setFilteredProducts(filtered);
+    // Update URL params
+    updateURLParams(selectedCollections, selectedTags);
   };
 
   if (error) {
@@ -156,7 +305,7 @@ function ShopContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0e0f11]">
+    <div className="min-h-screen bg-[#0e0f11] pt-16 md:pt-0">
       {/* Header with Image */}
       <div className="relative bg-[#0e0f11] shadow-sm border-b border-gray-800 overflow-hidden">
         {/* Background Image */}
@@ -202,8 +351,8 @@ function ShopContent() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center justify-center">
-                  <Search className="w-4 h-4 text-emerald-400" />
+                <div className="w-8 h-8 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center justify-center">
+                  <Search className="w-4 h-4 text-red-400" />
                 </div>
                 <div>
                   <p className="text-sm text-gray-400">Search results for</p>
@@ -219,7 +368,7 @@ function ShopContent() {
               </div>
               <button
                 onClick={clearSearch}
-                className="flex items-center gap-2 text-gray-400 hover:text-emerald-300 text-sm font-medium px-3 py-2 rounded-lg hover:bg-emerald-500/10 transition-colors"
+                className="flex items-center gap-2 text-gray-400 hover:text-red-300 text-sm font-medium px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors"
               >
                 <X className="w-4 h-4" />
                 <span className="hidden sm:inline">Clear search</span>
@@ -234,35 +383,92 @@ function ShopContent() {
         </div>
       )}
 
-      {/* Filter Controls */}
+      {/* Sort, Filter, and View Controls */}
       {!isLoading && products.length > 0 && (
-        <div className="bg-[#0e0f11] border-b border-gray-800">
+        <div className="bg-[#0e0f11] border-b border-gray-800 sticky top-16 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div className="flex items-center justify-between gap-4">
-              {/* Sort Dropdown */}
-              <div className="flex items-center gap-2 sm:gap-3 flex-1">
-                <label className="text-sm font-medium text-gray-300 sm:inline">Sort by:</label>
-                <div className="relative flex-1 sm:flex-initial">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="appearance-none bg-[#0e0f11] border border-gray-700 rounded-lg px-3 sm:px-4 py-2 pr-8 text-sm font-medium text-gray-100 hover:border-gray-600 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors cursor-pointer w-full sm:w-auto"
-                  >
-                    {sortOptions.map((option) => (
-                      <option key={option.value} value={option.value} className="bg-[#0e0f11] text-gray-100">
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+              {/* Left side: Filter and Sort */}
+              <div className="flex items-center gap-3 flex-1">
+                {/* Filter Button */}
+                <button
+                  onClick={() => setIsFilterOpen(!isFilterOpen)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                    selectedCollections.length > 0 || selectedTags.length > 0
+                      ? 'bg-red-600 text-white border-red-600'
+                      : 'bg-[#0e0f11] border-gray-700 text-gray-300 hover:bg-gray-800'
+                  }`}
+                >
+                  <Filter className="w-4 h-4" />
+                  <span className="hidden sm:inline">Filters</span>
+                  {(selectedCollections.length > 0 || selectedTags.length > 0) && (
+                    <span className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-bold">
+                      {selectedCollections.length + selectedTags.length}
+                    </span>
+                  )}
+                </button>
+
+                {/* Sort Dropdown */}
+                <div className="flex items-center gap-2">
+                  <label className="text-sm font-medium text-gray-300 hidden sm:inline">Sort:</label>
+                  <div className="relative">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="appearance-none bg-[#0e0f11] border border-gray-700 rounded-lg px-3 sm:px-4 py-2 pr-8 text-sm font-medium text-gray-100 hover:border-gray-600 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors cursor-pointer"
+                    >
+                      {sortOptions.map((option) => (
+                        <option key={option.value} value={option.value} className="bg-[#0e0f11] text-gray-100">
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                      <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
+
+                {/* Active Filters Display */}
+                {(selectedCollections.length > 0 || selectedTags.length > 0) && (
+                  <div className="hidden sm:flex items-center gap-2 flex-wrap">
+                    {selectedCollections.map(collection => (
+                      <span key={collection} className="inline-flex items-center gap-1 px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-medium border border-red-500/30">
+                        {collection === 'pokemon' ? 'Pokemon' : collection === 'one-piece' ? 'One Piece' : 'Accessories'}
+                        <button
+                          onClick={() => {
+                            const newCollections = selectedCollections.filter(c => c !== collection);
+                            setSelectedCollections(newCollections);
+                            updateURLParams(newCollections, selectedTags);
+                          }}
+                          className="hover:text-red-300"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
+                    {selectedTags.map(tag => (
+                      <span key={tag} className="inline-flex items-center gap-1 px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs font-medium border border-red-500/30">
+                        {tag.charAt(0).toUpperCase() + tag.slice(1)}
+                        <button
+                          onClick={() => {
+                            const newTags = selectedTags.filter(t => t !== tag);
+                            setSelectedTags(newTags);
+                            updateURLParams(selectedCollections, newTags);
+                          }}
+                          className="hover:text-red-300"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              {/* View Mode Toggle */}
+              {/* Right side: View Mode Toggle */}
               <div className="flex items-center gap-2 sm:gap-3">
                 <span className="text-sm font-medium text-gray-300 hidden sm:inline">View:</span>
                 <div className="flex bg-[#0e0f11] rounded-lg p-1 border border-gray-700">
@@ -270,7 +476,7 @@ function ShopContent() {
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded-md transition-colors ${
                       viewMode === 'grid'
-                        ? 'bg-emerald-600 text-white shadow-sm'
+                        ? 'bg-red-600 text-white shadow-sm'
                         : 'text-gray-400 hover:text-gray-100 hover:bg-white/5'
                     }`}
                     title="Grid view"
@@ -281,7 +487,7 @@ function ShopContent() {
                     onClick={() => setViewMode('large')}
                     className={`p-2 rounded-md transition-colors ${
                       viewMode === 'large'
-                        ? 'bg-emerald-600 text-white shadow-sm'
+                        ? 'bg-red-600 text-white shadow-sm'
                         : 'text-gray-400 hover:text-gray-100 hover:bg-white/5'
                     }`}
                     title="Large view"
@@ -295,12 +501,390 @@ function ShopContent() {
         </div>
       )}
 
+      {/* Filter Drawer/Modal */}
+      {isFilterOpen && !isLoading && products.length > 0 && (
+        <>
+          {/* Mobile: Full Screen Modal */}
+          <div className="lg:hidden fixed inset-0 z-[60] bg-[#0e0f11]">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-800">
+                <h2 className="text-lg font-bold text-white">Filters</h2>
+                <button
+                  onClick={() => setIsFilterOpen(false)}
+                  className="p-2 text-gray-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Filter Content */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {/* Collection Filters */}
+                <div className="mb-6">
+                  <h3 className="text-sm font-semibold text-white mb-3">Collection</h3>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => toggleTempCollection('pokemon')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedCollections.includes('pokemon')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedCollections.includes('pokemon')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedCollections.includes('pokemon') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>Pokemon</span>
+                    </button>
+                    <button
+                      onClick={() => toggleTempCollection('one-piece')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedCollections.includes('one-piece')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedCollections.includes('one-piece')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedCollections.includes('one-piece') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>One Piece</span>
+                    </button>
+                    <button
+                      onClick={() => toggleTempCollection('accessories')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedCollections.includes('accessories')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedCollections.includes('accessories')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedCollections.includes('accessories') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>Accessories</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Tag Filters - Show if Pokemon or One Piece is selected */}
+                {(tempSelectedCollections.includes('pokemon') || tempSelectedCollections.includes('one-piece')) && (
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-white mb-3">Type</h3>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => toggleTempTag('raw')}
+                        className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                          tempSelectedTags.includes('raw')
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                        }`}
+                      >
+                        <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                          tempSelectedTags.includes('raw')
+                            ? 'border-red-400 bg-red-400'
+                            : 'border-gray-500'
+                        }`}>
+                          {tempSelectedTags.includes('raw') && (
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                        <span>Raw</span>
+                      </button>
+                      <button
+                        onClick={() => toggleTempTag('sealed')}
+                        className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                          tempSelectedTags.includes('sealed')
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                        }`}
+                      >
+                        <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                          tempSelectedTags.includes('sealed')
+                            ? 'border-red-400 bg-red-400'
+                            : 'border-gray-500'
+                        }`}>
+                          {tempSelectedTags.includes('sealed') && (
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                        <span>Sealed</span>
+                      </button>
+                      <button
+                        onClick={() => toggleTempTag('graded')}
+                        className={`w-full flex items-center gap-3 text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                          tempSelectedTags.includes('graded')
+                            ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                            : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                        }`}
+                      >
+                        <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                          tempSelectedTags.includes('graded')
+                            ? 'border-red-400 bg-red-400'
+                            : 'border-gray-500'
+                        }`}>
+                          {tempSelectedTags.includes('graded') && (
+                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          )}
+                        </div>
+                        <span>Graded</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Clear All Button */}
+                {(tempSelectedCollections.length > 0 || tempSelectedTags.length > 0) && (
+                  <button
+                    onClick={() => {
+                      setTempSelectedCollections([]);
+                      setTempSelectedTags([]);
+                    }}
+                    className="w-full px-4 py-3 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors cursor-pointer mb-4"
+                  >
+                    Clear All Filters
+                  </button>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-4 border-t border-gray-800">
+                <button
+                  onClick={applyFilters}
+                  className="w-full px-4 py-3 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors cursor-pointer"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop: Sidebar */}
+          <div className="hidden lg:block fixed left-0 top-16 bottom-0 w-64 bg-[#0e0f11] border-r border-gray-800 z-[50] overflow-y-auto">
+            <div className="p-4">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-bold text-white">Filters</h2>
+                <button
+                  onClick={() => setIsFilterOpen(false)}
+                  className="p-1 text-gray-400 hover:text-white cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Collection Filters */}
+              <div className="mb-6">
+                <h3 className="text-sm font-semibold text-white mb-3">Collection</h3>
+                <div className="space-y-2">
+                  <button
+                    onClick={() => toggleTempCollection('pokemon')}
+                    className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                      tempSelectedCollections.includes('pokemon')
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                      tempSelectedCollections.includes('pokemon')
+                        ? 'border-red-400 bg-red-400'
+                        : 'border-gray-500'
+                    }`}>
+                      {tempSelectedCollections.includes('pokemon') && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span>Pokemon</span>
+                  </button>
+                  <button
+                    onClick={() => toggleTempCollection('one-piece')}
+                    className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                      tempSelectedCollections.includes('one-piece')
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                      tempSelectedCollections.includes('one-piece')
+                        ? 'border-red-400 bg-red-400'
+                        : 'border-gray-500'
+                    }`}>
+                      {tempSelectedCollections.includes('one-piece') && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span>One Piece</span>
+                  </button>
+                  <button
+                    onClick={() => toggleTempCollection('accessories')}
+                    className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                      tempSelectedCollections.includes('accessories')
+                        ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                        : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                    }`}
+                  >
+                    <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                      tempSelectedCollections.includes('accessories')
+                        ? 'border-red-400 bg-red-400'
+                        : 'border-gray-500'
+                    }`}>
+                      {tempSelectedCollections.includes('accessories') && (
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <span>Accessories</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Tag Filters - Show if Pokemon or One Piece is selected */}
+              {(tempSelectedCollections.includes('pokemon') || tempSelectedCollections.includes('one-piece')) && (
+                <div className="mb-6">
+                  <h3 className="text-sm font-semibold text-white mb-3">Type</h3>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => toggleTempTag('raw')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedTags.includes('raw')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedTags.includes('raw')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedTags.includes('raw') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>Raw</span>
+                    </button>
+                    <button
+                      onClick={() => toggleTempTag('sealed')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedTags.includes('sealed')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedTags.includes('sealed')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedTags.includes('sealed') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>Sealed</span>
+                    </button>
+                    <button
+                      onClick={() => toggleTempTag('graded')}
+                      className={`w-full flex items-center gap-3 text-left px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                        tempSelectedTags.includes('graded')
+                          ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                          : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+                      }`}
+                    >
+                      <div className={`w-5 h-5 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                        tempSelectedTags.includes('graded')
+                          ? 'border-red-400 bg-red-400'
+                          : 'border-gray-500'
+                      }`}>
+                        {tempSelectedTags.includes('graded') && (
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      <span>Graded</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Clear All Button */}
+              {(tempSelectedCollections.length > 0 || tempSelectedTags.length > 0) && (
+                <button
+                  onClick={() => {
+                    setTempSelectedCollections([]);
+                    setTempSelectedTags([]);
+                  }}
+                  className="w-full px-4 py-3 bg-gray-800 text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors cursor-pointer mb-4"
+                >
+                  Clear All Filters
+                </button>
+              )}
+
+              {/* Footer */}
+              <div className="mt-6 pt-6 border-t border-gray-800">
+                <button
+                  onClick={applyFilters}
+                  className="w-full px-4 py-3 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition-colors cursor-pointer"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Overlay for mobile */}
+          <div
+            className="lg:hidden fixed inset-0 bg-black/50 z-[55]"
+            onClick={() => setIsFilterOpen(false)}
+          />
+        </>
+      )}
+
       {/* Main Content */}
       <div className="bg-[#0e0f11] min-h-screen">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 transition-all duration-300 ${
+          isFilterOpen ? 'lg:ml-64 lg:max-w-[calc(100%-16rem)]' : ''
+        }`}>
           {isLoading ? (
             <div className="text-center py-16">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-emerald-400" />
+              <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-red-400" />
               <p className="text-gray-400">Loading products...</p>
             </div>
           ) : filteredProducts.length === 0 ? (
@@ -318,7 +902,7 @@ function ShopContent() {
               {(urlSearchQuery || searchQuery) && (
                 <button
                   onClick={clearSearch}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-emerald-500/25 hover:-translate-y-0.5"
+                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-red-500/25 hover:-translate-y-0.5"
                 >
                   View all products
                 </button>
@@ -356,7 +940,7 @@ export default function ShopPage() {
     <Suspense fallback={
       <div className="min-h-screen bg-[#0e0f11] flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-emerald-400" />
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-red-400" />
           <p className="text-gray-400">Loading shop...</p>
         </div>
       </div>

@@ -71,8 +71,8 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '6');
 
     const result = await shopifyClient.request(GET_FEATURED_COLLECTION_QUERY, {
-      handle: 'featured',
-      first: Math.min(limit, 20), // Cap at 20 products
+      handle: 'Featured',
+      first: Math.min(limit, 3), // Limit to 3 products for featured section
     }) as any;
 
     if (!result.collection) {
