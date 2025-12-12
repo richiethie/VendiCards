@@ -1,12 +1,81 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { FaInstagram } from 'react-icons/fa';
 
+interface ContactFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
+
 export default function ContactPage() {
+  const router = useRouter();
+  const [formData, setFormData] = useState<ContactFormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    subject: '',
+    message: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (error) setError(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to submit contact form');
+      }
+
+      // Success
+      setSuccess(true);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+      });
+
+      // Scroll to top to show success message
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to submit contact form. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-[#0e0f11]">
       {/* Header with Image */}
@@ -36,6 +105,22 @@ export default function ContactPage() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
+        {/* Success Message */}
+        {success && (
+          <div className="mb-6 bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <p className="text-green-400 font-medium">
+              Thank you for contacting us! We've received your message and will get back to you within 24 hours.
+            </p>
+          </div>
+        )}
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <p className="text-red-400 font-medium">{error}</p>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
           {/* Contact Information */}
           <div>
@@ -288,7 +373,7 @@ export default function ContactPage() {
                   }
                 }
               `}</style>
-              <form className="contact-form space-y-4 sm:space-y-6">
+              <form className="contact-form space-y-4 sm:space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label htmlFor="firstName">
@@ -300,6 +385,9 @@ export default function ContactPage() {
                       name="firstName"
                       required
                       placeholder="Your first name"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
@@ -312,6 +400,9 @@ export default function ContactPage() {
                       name="lastName"
                       required
                       placeholder="Your last name"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -326,6 +417,9 @@ export default function ContactPage() {
                     name="email"
                     required
                     placeholder="your.email@example.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -338,6 +432,9 @@ export default function ContactPage() {
                     id="phone"
                     name="phone"
                     placeholder="(555) 123-4567"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -349,6 +446,9 @@ export default function ContactPage() {
                     id="subject"
                     name="subject"
                     required
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                   >
                     <option value="">Select a topic</option>
                     <option value="purchase">Looking to Buy Cards</option>
@@ -371,14 +471,18 @@ export default function ContactPage() {
                     rows={4}
                     required
                     placeholder="Tell us about what you're looking for or how we can help..."
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    disabled={isLoading}
                   ></textarea>
                 </div>
 
                 <div className="flex justify-end pt-4">
                   <button
                     type="submit"
+                    disabled={isLoading}
                   >
-                    Send Message
+                    {isLoading ? 'Sending...' : 'Send Message'}
                   </button>
                 </div>
               </form>

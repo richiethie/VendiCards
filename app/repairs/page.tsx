@@ -1,14 +1,17 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import Form from '@/components/Form';
 import { RepairRequest } from '@/types/shopify';
 import { FaInstagram } from 'react-icons/fa';
 
 export default function RepairsPage() {
+  const router = useRouter();
+  
   const handleSubmit = async (data: RepairRequest) => {
-    'use server';
-    
     try {
       const response = await fetch('/api/repairs', {
         method: 'POST',
@@ -19,11 +22,12 @@ export default function RepairsPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit repair request');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to submit repair request');
       }
 
       // Redirect to success page
-      window.location.href = '/repairs/success';
+      router.push('/repairs/success');
     } catch (error) {
       console.error('Error submitting repair request:', error);
       throw error;

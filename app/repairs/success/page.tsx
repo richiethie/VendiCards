@@ -102,14 +102,24 @@ export default function RepairSuccessPage() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/shop"
+            href="/repairs"
             className="inline-flex items-center justify-center px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Submit Another Repair
+          </Link>
+          
+          {/* <Link
+            href="/shop"
+            className="inline-flex items-center justify-center px-6 py-3 border border-red-600 text-red-400 rounded-lg hover:bg-red-600/10 transition-colors"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             Continue Shopping
-          </Link>
+          </Link> */}
           
           <Link
             href="/"
