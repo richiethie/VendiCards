@@ -20,8 +20,8 @@ export default function FondyCardShowPage() {
     '@type': 'Event',
     name: 'Fondy Card Show',
     description: 'Trading card show with 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Free admission and parking. Buy, sell, and trade cards.',
-    startDate: '2024-03-15T09:00:00-06:00',
-    endDate: '2024-03-15T16:00:00-06:00',
+    startDate: '2026-03-15T09:00:00-06:00',
+    endDate: '2026-03-15T16:00:00-06:00',
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
@@ -181,7 +181,7 @@ export default function FondyCardShowPage() {
             <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 overflow-hidden w-full relative flex-1">
               <Image
                 src="/images/fondy-card-show.png"
-                alt="Fondy Card Show Event Poster - Sunday March 15th, 2024 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles"
+                alt="Fondy Card Show Event Poster - Sunday March 15th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles"
                 fill
                 className="object-contain"
               />

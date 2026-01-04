@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Fondy Card Show - Trading Cards & Collectibles Event | VendiCards',
-  description: 'Join us at the Fondy Card Show on Sunday, March 15th, 2024! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Buy, sell, and trade at the Radisson Hotel & Conference Center in Fond du Lac, WI. Hosted by VendiCards.',
+  description: 'Join us at the Fondy Card Show on Sunday, March 15th, 2026! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Buy, sell, and trade at the Radisson Hotel & Conference Center in Fond du Lac, WI. Hosted by VendiCards.',
   keywords: [
     'Fondy Card Show',
     'Fond du Lac card show',
@@ -11,15 +11,15 @@ export const metadata: Metadata = {
     'sports card show',
     'TCG event Wisconsin',
     'trading cards Fond du Lac',
-    'card show March 2024',
+    'card show March 2026',
     'VendiCards event',
     'trading card market',
-    'collectibles show',
+    'collectibles shows',
     'card trading event'
   ],
   openGraph: {
     title: 'Fondy Card Show - Trading Cards & Collectibles Event',
-    description: 'Join us on Sunday, March 15th, 2024! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles at the Radisson Hotel in Fond du Lac, WI.',
+    description: 'Join us on Sunday, March 15th, 2026! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles at the Radisson Hotel in Fond du Lac, WI.',
     url: '/fondy-card-show',
     siteName: 'VendiCards',
     images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Fondy Card Show - Trading Cards & Collectibles Event',
-    description: 'Sunday, March 15th, 2024 | Free admission and parking | 60+ tables of Pokemon, sports cards, TCGs, and collectibles',
+    description: 'Sunday, March 15th, 2026 | Free admission and parking | 60+ tables of Pokemon, sports cards, TCGs, and collectibles',
     images: ['/images/fondy-card-show.png'],
   },
   alternates: {
