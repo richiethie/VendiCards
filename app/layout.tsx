@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "VendiCards - Premium Pokémon Cards & Repair Services",
     template: "%s | VendiCards"
   },
-  description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all! We specialize in card repair and restoration.',
+  description: 'Welcome to VendiCards! We\'re a new store specializing in Pokemon and One Piece trading cards and collectibles. From sealed product and raw cards to graded gems, custom merch, and slick accessories — we have everything you need!',
   keywords: ['pokemon cards', 'pokemon', 'trading cards', 'card repair', 'card restoration', 'grading preparation', 'authentic cards', 'collectibles', 'tcg', 'vendicards'],
   authors: [{ name: "VendiCards" }],
   creator: "VendiCards",
