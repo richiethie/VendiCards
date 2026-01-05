@@ -47,6 +47,7 @@ const Header: React.FC = () => {
     { name: 'Grading', href: '/grading' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Fondy Card Show', href: '/fondy-card-show' },
   ];
 
   const isActive = (href: string) => {
