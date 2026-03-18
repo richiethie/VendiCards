@@ -108,7 +108,7 @@ export default function LocationPage() {
                   </div>
                   <div>
                     <h4 className="text-lg font-bold text-white mb-1">Availability</h4>
-                    <p className="text-gray-300 text-sm sm:text-base">Hours are M-F 3-8pm or by appointment</p>
+                    <p className="text-gray-300 text-sm sm:text-base">Hours are M-F 11am-7pm or by appointment</p>
                     <p className="text-xs sm:text-sm text-gray-500 mt-1">Please call ahead to schedule an appointment</p>
                   </div>
                 </div>

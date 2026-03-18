@@ -181,7 +181,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">Availability</h3>
-                  <p className="text-gray-400 text-sm sm:text-base">Hours are M-F 3-8pm or by appointment</p>
+                  <p className="text-gray-400 text-sm sm:text-base">Hours are M-F 11am-7pm or by appointment</p>
                   <p className="text-xs sm:text-sm text-gray-500">Please call ahead to schedule an appointment</p>
                 </div>
               </div>

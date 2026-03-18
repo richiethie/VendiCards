@@ -10,7 +10,7 @@ const AnnouncementBanner: React.FC = () => {
       <div className="flex items-center gap-2">
         <Sparkles className="w-4 h-4 flex-shrink-0" />
         <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">
-          FONDY CARD SHOW - MARCH 15TH
+          FONDY CARD SHOW - MAY 17TH
         </span>
       </div>
       <Link 

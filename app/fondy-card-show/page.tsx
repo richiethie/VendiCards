@@ -1,18 +1,49 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Sparkles, Calendar, Clock, MapPin, Facebook, ShoppingBag, DollarSign, RefreshCw, Navigation, ExternalLink, Ticket, Car } from 'lucide-react';
 import { FaInstagram } from 'react-icons/fa';
 
 export default function FondyCardShowPage() {
+  // Go-live time: March 18, 2026 at 8:00 AM Central (13:00 UTC)
+  const goLiveDate = new Date('2026-03-18T13:00:00Z');
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const isLive = now >= goLiveDate;
+  const remainingMs = Math.max(goLiveDate.getTime() - now.getTime(), 0);
+
+  const formatRemaining = (ms: number) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / (60 * 60 * 24));
+    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (days > 0) {
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+    return `${minutes}m ${seconds}s`;
+  };
+
   // Map links
   const locationAddress = 'Radisson Hotel Conference Center Fond du Lac WI';
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(locationAddress)}`;
   const appleMapsUrl = `https://maps.apple.com/?daddr=${encodeURIComponent(locationAddress)}`;
   const googleMapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(locationAddress)}&output=embed`;
-  const vendorInquiryUrl = 'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards';
+  const vendorInquiryUrl = 'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-copy-1773356078983';
 
   // Structured Data for SEO (Event Schema)
   const eventStructuredData = {
@@ -20,8 +51,8 @@ export default function FondyCardShowPage() {
     '@type': 'Event',
     name: 'Fondy Card Show',
     description: 'Trading card show with 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Free admission and parking. Buy, sell, and trade cards.',
-    startDate: '2026-03-15T09:00:00-06:00',
-    endDate: '2026-03-15T16:00:00-06:00',
+    startDate: '2026-05-17T09:00:00-06:00',
+    endDate: '2026-05-17T16:00:00-06:00',
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
@@ -109,9 +140,9 @@ export default function FondyCardShowPage() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-red-400 flex-shrink-0" />
-                  <div>
-                    <p className="text-gray-300 text-lg font-semibold">Sunday, March 15th</p>
-                  </div>
+                <div>
+                  <p className="text-gray-300 text-lg font-semibold">Sunday, May 17th</p>
+                </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-red-400 flex-shrink-0" />
@@ -155,7 +186,7 @@ export default function FondyCardShowPage() {
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">What to Expect</h2>
                 <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-4">
                   <p className="text-white text-lg font-bold text-center">
-                    60+ TABLES
+                    100+ TABLES
                   </p>
                 </div>
                 
@@ -180,8 +211,8 @@ export default function FondyCardShowPage() {
           <div className="lg:col-span-2 flex">
             <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 overflow-hidden w-full relative flex-1">
               <Image
-                src="/images/fondy-card-show.png"
-                alt="Fondy Card Show Event Poster - Sunday March 15th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles"
+                src="/images/fondy-card-show-may-2026.png"
+                alt="Fondy Card Show Event Poster - Sunday May 17th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles"
                 fill
                 className="object-contain"
               />
@@ -192,20 +223,43 @@ export default function FondyCardShowPage() {
         {/* Vendor Inquiries - Full Width */}
         <div className="mb-12">
           <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 p-8 sm:p-12">
-            <div className="max-w-2xl mx-auto text-center">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Vendor Inquiries</h2>
-              <p className="text-gray-400 mb-6 text-lg">
-                Interested in being a vendor at the Fondy Card Show? Apply through our application system.
+            <div className="max-w-2xl mx-auto text-center space-y-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Vendor Inquiries</h2>
+              <p className="text-gray-400 text-lg">
+                Interested in being a vendor at the Fondy Card Show? Vendor signups open soon.
               </p>
-              <a
-                href={vendorInquiryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors text-center"
-              >
-                <ExternalLink className="w-5 h-5" />
-                Apply to be a Vendor
-              </a>
+
+              {!isLive && (
+                <p className="text-sm text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-3 inline-block">
+                  Vendor signups open at <span className="font-semibold">8:00 AM CT on March 18, 2026</span>
+                  {remainingMs > 0 && (
+                    <span className="block text-xs text-amber-200 mt-1">
+                      Countdown: {formatRemaining(remainingMs)}
+                    </span>
+                  )}
+                </p>
+              )}
+
+              {isLive ? (
+                <a
+                  href={vendorInquiryUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors text-center"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Apply to be a Vendor
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-700 text-gray-300 rounded-lg font-semibold cursor-not-allowed opacity-80"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                  Vendor Signups Locked
+                </button>
+              )}
             </div>
           </div>
         </div>
