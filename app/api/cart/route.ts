@@ -261,7 +261,7 @@ const GET_PRODUCT_VARIANT_QUERY = `
 `;
 
 export async function POST(request: NextRequest) {
-  if (!isShopifyEnabled) {
+  if (!isShopifyEnabled()) {
     return NextResponse.json({
       success: false,
       message: 'Cart is unavailable while Shopify is disabled',
@@ -717,7 +717,7 @@ async function clearCart(cartId: string) {
 
 // Handle GET requests for cart status
 export async function GET(request: NextRequest) {
-  if (!isShopifyEnabled) {
+  if (!isShopifyEnabled()) {
     return NextResponse.json({
       success: false,
       message: 'Cart is unavailable while Shopify is disabled',

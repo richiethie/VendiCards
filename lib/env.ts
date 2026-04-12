@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { resolveShopifyEnabledFromProcessEnv } from './shopifyFlag';
 
 const envSchema = z.object({
   // Shopify Storefront API
@@ -19,9 +20,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().optional().default('http://localhost:3000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
 
-  // Shopify feature flags
-  SHOPIFY_ENABLED: z.string().optional().default('true'),
-  NEXT_PUBLIC_SHOPIFY_ENABLED: z.string().optional().default('true'),
+  // Shopify feature flags (no defaults — unset means “on”; see isShopifyEnabled)
+  SHOPIFY_ENABLED: z.string().optional(),
+  NEXT_PUBLIC_SHOPIFY_ENABLED: z.string().optional(),
 
   // Cloudinary (inventory gallery)
   CLOUDINARY_CLOUD_NAME: z.string().optional(),
@@ -38,5 +39,9 @@ export const isDevelopment = env.NODE_ENV === 'development';
 // Helper function to check if we're in production
 export const isProduction = env.NODE_ENV === 'production';
 
-// Helper function to check if Shopify is enabled on server
-export const isShopifyEnabled = env.SHOPIFY_ENABLED !== 'false';
+/**
+ * Server-side Shopify gate — reads live `process.env` each call (see `lib/shopifyFlag.ts`).
+ */
+export function isShopifyEnabled(): boolean {
+  return resolveShopifyEnabledFromProcessEnv();
+}

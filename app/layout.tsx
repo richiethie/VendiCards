@@ -4,6 +4,11 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/components/CartContext';
+import { SiteFlagsProvider } from '@/components/SiteFlagsContext';
+import { isShopifyEnabled } from '@/lib/env';
+
+/** Read Shopify flags on each request (not from a statically cached layout shell). */
+export const dynamic = 'force-dynamic';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -82,13 +87,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <CartProvider>
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </CartProvider>
+        <SiteFlagsProvider shopifyEnabled={isShopifyEnabled()}>
+          <CartProvider>
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </CartProvider>
+        </SiteFlagsProvider>
       </body>
     </html>
   );

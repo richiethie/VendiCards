@@ -7,7 +7,7 @@ import ProductCard from '@/components/ProductCard';
 import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package, ChevronDown, ChevronUp } from 'lucide-react';
 import { ShopifyProduct } from '@/types/shopify';
 import Link from 'next/link';
-import { isShopifyEnabledClient } from '@/lib/shopifyConfig';
+import { useShopifyEnabled } from '@/components/SiteFlagsContext';
 
 interface InventoryImage {
   id: string;
@@ -947,7 +947,7 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
-  const shopifyEnabled = isShopifyEnabledClient();
+  const shopifyEnabled = useShopifyEnabled();
   const [inventoryImages, setInventoryImages] = useState<InventoryImage[]>([]);
   const [inventoryLoading, setInventoryLoading] = useState(false);
   const [inventoryError, setInventoryError] = useState<string | null>(null);

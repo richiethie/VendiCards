@@ -15,7 +15,7 @@ interface ProductPageProps {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
-  if (!isShopifyEnabled) {
+  if (!isShopifyEnabled()) {
     return {
       title: 'Inventory - VendiCards',
       description: 'Browse in-store inventory photos and contact us for availability.',
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  if (!isShopifyEnabled) {
+  if (!isShopifyEnabled()) {
     redirect('/shop')
   }
 

@@ -67,7 +67,7 @@ const GET_FEATURED_COLLECTION_QUERY = `
 `;
 
 export async function GET(request: NextRequest) {
-  if (!isShopifyEnabled) {
+  if (!isShopifyEnabled()) {
     return NextResponse.json({
       success: true,
       collection: null,

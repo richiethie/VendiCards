@@ -1,5 +1,10 @@
+import { isEnvExplicitlyDisabled } from './shopifyFlag';
+
+/** Client fallback when `SiteFlagsProvider` is missing (e.g. tests). */
 export function isShopifyEnabledClient(): boolean {
-  // Default to enabled unless explicitly set to "false"
-  return process.env.NEXT_PUBLIC_SHOPIFY_ENABLED !== 'false';
+  const raw = process.env.NEXT_PUBLIC_SHOPIFY_ENABLED;
+  if (raw === undefined || raw === '') return true;
+  return !isEnvExplicitlyDisabled(raw);
 }
+
 

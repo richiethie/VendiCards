@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/components/CartContext';
-import { isShopifyEnabledClient } from '../../../lib/shopifyConfig';
+import { useShopifyEnabled } from '@/components/SiteFlagsContext';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
   const router = useRouter();
-  const shopifyEnabled = isShopifyEnabledClient();
+  const shopifyEnabled = useShopifyEnabled();
   const { state: cartState, updateQuantity, removeFromCart, clearCart, goToCheckout } = useCart();
 
   useEffect(() => {

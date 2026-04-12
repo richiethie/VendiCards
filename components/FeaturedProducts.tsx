@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { ShopifyProduct } from '@/types/shopify';
-import { isShopifyEnabledClient } from '@/lib/shopifyConfig';
+import { useShopifyEnabled } from '@/components/SiteFlagsContext';
 
 const FeaturedProducts: React.FC = () => {
-  const shopifyEnabled = isShopifyEnabledClient();
+  const shopifyEnabled = useShopifyEnabled();
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
 

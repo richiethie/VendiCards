@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode, useCallback, useRef } from 'react';
+import { useShopifyEnabled } from './SiteFlagsContext';
 
 // Cart item interface
 interface CartItem {
@@ -123,7 +124,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const isRequesting = useRef(false);
-  const shopifyEnabled = process.env.NEXT_PUBLIC_SHOPIFY_ENABLED !== 'false';
+  const shopifyEnabled = useShopifyEnabled();
 
   // Load cart from localStorage on mount
   useEffect(() => {

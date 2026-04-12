@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { ShoppingCart, Phone, Menu, X, Search, Loader2 } from 'lucide-react';
 import { useCart } from './CartContext';
+import { useShopifyEnabled } from './SiteFlagsContext';
 import Image from 'next/image';
 
 const Header: React.FC = () => {
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const pathname = usePathname();
   const { state: cartState } = useCart();
-  const shopifyEnabled = process.env.NEXT_PUBLIC_SHOPIFY_ENABLED !== 'false';
+  const shopifyEnabled = useShopifyEnabled();
   
   const searchRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
