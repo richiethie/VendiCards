@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center mb-4 sm:mb-6">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden flex items-center justify-center bg-white/5">
                 <Image
-                  src="/images/vendicards_logo.png"
+                  src="/images/vendicards_logo2.jpg"
                   alt="VendiCards Logo"
                   width={48}
                   height={48}
@@ -85,19 +85,21 @@ const Footer: React.FC = () => {
                   Buy Pokémon Cards
                 </Link>
               </li>
+              {/* Repairs paused — re-enable with lib/siteFlags + middleware
               <li>
                 <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Card Restoration
                 </Link>
               </li>
+              */}
               <li>
                 <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Grading Service
                 </Link>
               </li>
               <li>
-                <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Grand Opening
+                <Link href="/location/new" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Grand Reopening
                 </Link>
               </li>
               <li>
@@ -173,17 +175,19 @@ const Footer: React.FC = () => {
               <Link href="/shop" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Buy Cards
               </Link>
+              {/* Repairs paused — see lib/siteFlags.ts
               <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Restoration
               </Link>
+              */}
               <Link href="/about" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 About Us
               </Link>
               <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Grading
               </Link>
-              <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
-                Grand Opening
+              <Link href="/location/new" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+                Grand Reopening
               </Link>
               <Link href="/contact" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Contact

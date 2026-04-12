@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify/storefront';
+import { isShopifyEnabled } from '@/lib/env';
 
 const GET_PRODUCTS_QUERY = `
   query getProducts($first: Int!) {
@@ -151,6 +152,15 @@ const GET_COLLECTION_PRODUCTS_QUERY = `
 `;
 
 export async function GET(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: true,
+      products: [],
+      count: 0,
+      message: 'Shopify is disabled',
+    });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '50');

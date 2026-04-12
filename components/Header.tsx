@@ -17,6 +17,7 @@ const Header: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const pathname = usePathname();
   const { state: cartState } = useCart();
+  const shopifyEnabled = process.env.NEXT_PUBLIC_SHOPIFY_ENABLED !== 'false';
   
   const searchRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout>();
@@ -43,7 +44,9 @@ const Header: React.FC = () => {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
+    /* Repairs paused — set `repairsOffered` in lib/siteFlags.ts and uncomment:
     { name: 'Repairs', href: '/repairs' },
+    */
     { name: 'Grading', href: '/grading' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
@@ -185,7 +188,7 @@ const Header: React.FC = () => {
   return (
     <header className="bg-[#0e0f11] shadow-sm border-b border-gray-800 sticky top-0 z-[60]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="relative flex justify-between items-center h-16">
           {/* Left side - Mobile menu + Logo */}
           <div className="flex items-center space-x-3">
             {/* Mobile menu button - left side on mobile */}
@@ -205,7 +208,7 @@ const Header: React.FC = () => {
               <Link href="/" className="flex items-center group">
                 <div className="w-10 h-10 rounded-md overflow-hidden flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
                   <Image
-                    src="/images/vendicards_logo.png"
+                    src="/images/vendicards_logo2.jpg"
                     alt="VendiCards Logo"
                     width={40}
                     height={40}
@@ -225,13 +228,13 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
                 className={clsx(
-                  'px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200',
+                  'px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 whitespace-nowrap',
                   isActive(item.href)
                     ? 'text-primary-400 bg-primary-900/20 border border-primary-800'
                     : 'text-gray-300 hover:text-primary-400 hover:bg-gray-800'
@@ -243,40 +246,44 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Right side - Actions */}
-          <div className="flex items-center space-x-3">
-             {/* Search Icon/Close Icon */}
-             <button
-               onClick={() => setIsSearchOpen(!isSearchOpen)}
-               className="p-2 text-gray-400 cursor-pointer hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
-             >
-               {isSearchOpen ? (
-                 <X className="w-6 h-6" />
-               ) : (
-                 <Search className="w-6 h-6" />
-               )}
-             </button>
+          {shopifyEnabled && (
+            <div className="flex items-center space-x-3">
+              {/* Search Icon/Close Icon */}
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="p-2 text-gray-400 cursor-pointer hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                {isSearchOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Search className="w-6 h-6" />
+                )}
+              </button>
 
-            {/* Cart Icon */}
-            <Link
-              href="/shop/cart"
-              className="relative p-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
-            >
-              <ShoppingCart className="w-6 h-6" />
-              {/* Cart Badge - show when items > 0 */}
-              {cartState.items.length > 0 && (
-                <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-red-400 text-white text-xs rounded-full flex items-center justify-center font-bold px-1 border border-red-400">
-                  {cartState.items.reduce((total, item) => total + item.quantity, 0)}
-                </span>
-              )}
-            </Link>
-          </div>
+              {/* Cart Icon */}
+              <Link
+                href="/shop/cart"
+                className="relative p-2 text-gray-400 hover:text-gray-200 hover:bg-gray-800 rounded-lg transition-colors"
+              >
+                <ShoppingCart className="w-6 h-6" />
+                {/* Cart Badge - show when items > 0 */}
+                {cartState.items.length > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-[20px] h-5 bg-red-400 text-white text-xs rounded-full flex items-center justify-center font-bold px-1 border border-red-400">
+                    {cartState.items.reduce((total, item) => total + item.quantity, 0)}
+                  </span>
+                )}
+              </Link>
+            </div>
+          )}
+
+          {!shopifyEnabled && <div className="hidden md:block w-0" />}
         </div>
       </div>
 
 
 
              {/* Expandable Search Input */}
-       {isSearchOpen && (
+       {shopifyEnabled && isSearchOpen && (
         <div ref={searchRef} className="bg-[#0e0f11] border-t border-gray-800 shadow-sm">
            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
              <div className="relative max-w-2xl mx-auto">
@@ -405,7 +412,7 @@ const Header: React.FC = () => {
                 key={item.name}
                 href={item.href}
                 className={clsx(
-                  'flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors',
+                  'flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors whitespace-nowrap',
                   isActive(item.href)
                     ? 'text-primary-400 bg-primary-900/20 border border-primary-800'
                     : 'text-gray-300 hover:text-primary-400 hover:bg-gray-800'

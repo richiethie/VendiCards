@@ -3,9 +3,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/components/CartContext';
+import { isShopifyEnabledClient } from '../../../lib/shopifyConfig';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function CartPage() {
+  const router = useRouter();
+  const shopifyEnabled = isShopifyEnabledClient();
   const { state: cartState, updateQuantity, removeFromCart, clearCart, goToCheckout } = useCart();
+
+  useEffect(() => {
+    if (!shopifyEnabled) {
+      router.replace('/shop');
+    }
+  }, [shopifyEnabled, router]);
+
+  if (!shopifyEnabled) {
+    return null;
+  }
 
   const handleQuantityChange = async (itemId: string, newQuantity: number) => {
     if (newQuantity === 0) {

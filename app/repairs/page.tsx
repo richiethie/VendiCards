@@ -8,6 +8,7 @@ import Form from '@/components/Form';
 import { RepairRequest } from '@/types/shopify';
 import { FaInstagram } from 'react-icons/fa';
 
+/** Repairs intake — page code retained; gated by lib/siteFlags + middleware when paused. */
 export default function RepairsPage() {
   const router = useRouter();
   

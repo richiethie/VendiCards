@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify/storefront';
+import { isShopifyEnabled } from '@/lib/env';
 
 const GET_FEATURED_COLLECTION_QUERY = `
   query getFeaturedCollection($handle: String!, $first: Int!) {
@@ -66,6 +67,16 @@ const GET_FEATURED_COLLECTION_QUERY = `
 `;
 
 export async function GET(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: true,
+      collection: null,
+      products: [],
+      count: 0,
+      message: 'Shopify is disabled',
+    });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const limit = parseInt(searchParams.get('limit') || '6');

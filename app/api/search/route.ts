@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify/storefront';
+import { isShopifyEnabled } from '@/lib/env';
 
 // Define the response type for the search query
 interface SearchProductsResponse {
@@ -79,6 +80,15 @@ const SEARCH_PRODUCTS_QUERY = `
 `;
 
 export async function GET(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: true,
+      products: [],
+      query: '',
+      message: 'Shopify is disabled',
+    });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q');

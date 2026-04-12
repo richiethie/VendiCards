@@ -65,6 +65,7 @@ const Hero: React.FC = () => {
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
             
+            {/* Repairs paused — re-enable with lib/siteFlags.ts
             <Link
               href="/repairs"
               className="group w-full sm:w-auto bg-transparent hover:bg-white/5 text-white border-2 border-gray-700 hover:border-red-500/50 px-10 py-4 rounded-lg text-lg font-bold transition-all duration-300 flex items-center justify-center gap-3"
@@ -72,6 +73,7 @@ const Hero: React.FC = () => {
               Card Services
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
+            */}
           </div>
         </div>
       </div>

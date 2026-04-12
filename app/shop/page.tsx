@@ -7,6 +7,17 @@ import ProductCard from '@/components/ProductCard';
 import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package, ChevronDown, ChevronUp } from 'lucide-react';
 import { ShopifyProduct } from '@/types/shopify';
 import Link from 'next/link';
+import { isShopifyEnabledClient } from '@/lib/shopifyConfig';
+
+interface InventoryImage {
+  id: string;
+  publicId: string;
+  url: string;
+  width: number;
+  height: number;
+  createdAt: string;
+  format: string;
+}
 
 function ShopContent() {
   const [products, setProducts] = useState<ShopifyProduct[]>([]);
@@ -936,6 +947,187 @@ function ShopContent() {
 }
 
 export default function ShopPage() {
+  const shopifyEnabled = isShopifyEnabledClient();
+  const [inventoryImages, setInventoryImages] = useState<InventoryImage[]>([]);
+  const [inventoryLoading, setInventoryLoading] = useState(false);
+  const [inventoryError, setInventoryError] = useState<string | null>(null);
+  const [selectedInventoryImage, setSelectedInventoryImage] = useState<InventoryImage | null>(null);
+
+  useEffect(() => {
+    if (shopifyEnabled) return;
+
+    const loadInventoryImages = async () => {
+      setInventoryLoading(true);
+      setInventoryError(null);
+      try {
+        const response = await fetch('/api/inventory-images', { cache: 'no-store' });
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Failed to load inventory images');
+        }
+
+        setInventoryImages(data.images || []);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Failed to load inventory images';
+        setInventoryError(message);
+      } finally {
+        setInventoryLoading(false);
+      }
+    };
+
+    loadInventoryImages();
+  }, [shopifyEnabled]);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedInventoryImage(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  const formatInventoryUpdatedAt = (createdAt: string) => {
+    const d = new Date(createdAt);
+    if (Number.isNaN(d.getTime())) return createdAt;
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(d);
+  };
+
+  const newestInventoryImage =
+    inventoryImages.length > 0
+      ? inventoryImages.reduce((newest, current) => {
+          const newestTime = new Date(newest.createdAt).getTime();
+          const currentTime = new Date(current.createdAt).getTime();
+          return currentTime > newestTime ? current : newest;
+        }, inventoryImages[0])
+      : null;
+
+  if (!shopifyEnabled) {
+    return (
+      <div className="min-h-screen bg-[#0e0f11]">
+        <div className="relative bg-[#0e0f11] shadow-sm border-b border-gray-800 overflow-hidden">
+          <div className="absolute inset-0 opacity-20">
+            <Image
+              src="/images/background-1.png"
+              alt="Shop Background"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0e0f11] via-[#0e0f11]/80 to-transparent"></div>
+          </div>
+
+          <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex items-center space-x-2 text-sm text-gray-400 mb-4">
+              <Link href="/" className="hover:text-red-400 transition-colors">Home</Link>
+              <span>/</span>
+              <span className="text-white">Shop</span>
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Shop</h1>
+              <p className="text-gray-400 text-base md:text-lg mt-1">
+                Discover our collection of premium Pokémon cards and collectibles
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          {!inventoryLoading && !inventoryError && newestInventoryImage && (
+            <p className="text-gray-400 text-sm mb-6">
+              Last inventory update:{" "}
+              <span className="text-white font-semibold">
+                {formatInventoryUpdatedAt(newestInventoryImage.createdAt)}
+              </span>
+            </p>
+          )}
+
+          {inventoryLoading && (
+            <div className="py-16 flex items-center justify-center text-gray-300 text-lg">
+              Loading inventory photos...
+            </div>
+          )}
+
+          {inventoryError && !inventoryLoading && (
+            <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-red-300">
+              {inventoryError}
+            </div>
+          )}
+
+          {!inventoryLoading && !inventoryError && inventoryImages.length === 0 && (
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
+              <p className="text-white text-lg font-semibold mb-2">No inventory photos uploaded yet</p>
+            </div>
+          )}
+
+          {!inventoryLoading && !inventoryError && inventoryImages.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {inventoryImages.map((image) => (
+                <div key={image.id} className="bg-gray-900/50 border border-gray-800 rounded-xl overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedInventoryImage(image)}
+                    className="w-full h-80 sm:h-96 bg-black/30 p-3 flex items-center justify-center cursor-zoom-in"
+                    aria-label="View image fullscreen"
+                  >
+                    <Image
+                      src={image.url}
+                      alt={image.publicId}
+                      width={image.width || 1200}
+                      height={image.height || 900}
+                      className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {selectedInventoryImage && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8"
+            onClick={() => setSelectedInventoryImage(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedInventoryImage(null)}
+              className="absolute z-[110] top-4 right-4 sm:top-6 sm:right-6 text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center text-xl"
+              aria-label="Close fullscreen image"
+            >
+              ×
+            </button>
+
+            <div
+              className="relative w-full max-w-7xl max-h-[90vh] h-auto flex items-center justify-center"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <Image
+                src={selectedInventoryImage.url}
+                alt={selectedInventoryImage.publicId}
+                width={selectedInventoryImage.width || 1600}
+                height={selectedInventoryImage.height || 1200}
+                className="max-w-full max-h-full w-auto h-auto object-contain scale-105"
+                sizes="100vw"
+                priority
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#0e0f11] flex items-center justify-center">

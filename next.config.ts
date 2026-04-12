@@ -2,7 +2,7 @@
 const nextConfig = {
   outputFileTracingRoot: process.cwd(),
   images: {
-    domains: ['cdn.shopify.com'],
+    domains: ['cdn.shopify.com', 'res.cloudinary.com'],
     formats: ['image/webp', 'image/avif'],
   },
   typescript: {

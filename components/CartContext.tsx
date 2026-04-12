@@ -123,9 +123,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const isRequesting = useRef(false);
+  const shopifyEnabled = process.env.NEXT_PUBLIC_SHOPIFY_ENABLED !== 'false';
 
   // Load cart from localStorage on mount
   useEffect(() => {
+    if (!shopifyEnabled) {
+      localStorage.removeItem('cart');
+      dispatch({ type: 'CLEAR_CART' });
+      dispatch({ type: 'SET_LOADING', payload: false });
+      return;
+    }
+
     // Set loading state while hydrating cart from localStorage
     dispatch({ type: 'SET_LOADING', payload: true });
     
@@ -196,7 +204,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       // No saved cart
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, []);
+  }, [shopifyEnabled]);
 
   // Save cart to localStorage when it changes
   useEffect(() => {
@@ -213,6 +221,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Add item to cart
   const addToCart = useCallback(async (variantId: string, quantity: number, product: any) => {
+    if (!shopifyEnabled) return;
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
@@ -267,10 +276,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.cartId]);
+  }, [shopifyEnabled, state.cartId]);
 
   // Update item quantity
   const updateQuantity = useCallback(async (itemId: string, quantity: number) => {
+    if (!shopifyEnabled) return;
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
@@ -334,10 +344,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.cartId]);
+  }, [shopifyEnabled, state.cartId]);
 
   // Remove item from cart
   const removeFromCart = useCallback(async (itemId: string) => {
+    if (!shopifyEnabled) return;
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
@@ -401,10 +412,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.cartId]);
+  }, [shopifyEnabled, state.cartId]);
 
   // Clear cart
   const clearCart = useCallback(async () => {
+    if (!shopifyEnabled) {
+      dispatch({ type: 'CLEAR_CART' });
+      return;
+    }
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
@@ -438,10 +453,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.cartId]);
+  }, [shopifyEnabled, state.cartId, state.items]);
 
   // Get cart from Shopify
   const getCart = useCallback(async () => {
+    if (!shopifyEnabled) return;
     if (!state.cartId || isRequesting.current) {
       return;
     }
@@ -490,14 +506,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'SET_LOADING', payload: false });
       isRequesting.current = false;
     }
-  }, [state.cartId]);
+  }, [shopifyEnabled, state.cartId]);
 
   // Go to checkout
   const goToCheckout = useCallback(() => {
+    if (!shopifyEnabled) return;
     if (state.checkoutUrl) {
       window.location.href = state.checkoutUrl;
     }
-  }, [state.checkoutUrl]);
+  }, [shopifyEnabled, state.checkoutUrl]);
 
   const value: CartContextType = {
     state,

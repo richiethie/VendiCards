@@ -1,11 +1,12 @@
 import { Metadata } from 'next'
 import { getProductByHandle } from '@/lib/shopify/storefront'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import AddToCartButton from '@/components/AddToCartButton'
 import ProductGallery from '@/components/ProductGallery'
 import { Image as ShopifyImage } from '@/types/shopify'
+import { isShopifyEnabled } from '@/lib/env'
 
 interface ProductPageProps {
   params: Promise<{
@@ -14,6 +15,13 @@ interface ProductPageProps {
 }
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  if (!isShopifyEnabled) {
+    return {
+      title: 'Inventory - VendiCards',
+      description: 'Browse in-store inventory photos and contact us for availability.',
+    }
+  }
+
   try {
     const resolvedParams = await params
     const product = await getProductByHandle(resolvedParams.handle)
@@ -37,6 +45,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
+  if (!isShopifyEnabled) {
+    redirect('/shop')
+  }
+
   let product = null
   let error = null
 

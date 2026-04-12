@@ -17,12 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily' as const,
       priority: 0.9,
     },
-    {
-      url: `${baseUrl}/repairs`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
+    // Repairs paused — re-add when lib/siteFlags `repairsOffered` is true
+    // {
+    //   url: `${baseUrl}/repairs`,
+    //   lastModified: new Date(),
+    //   changeFrequency: 'monthly' as const,
+    //   priority: 0.8,
+    // },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),

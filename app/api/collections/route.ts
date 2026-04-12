@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify/storefront';
+import { isShopifyEnabled } from '@/lib/env';
 
 const GET_COLLECTIONS_QUERY = `
   query getCollections($first: Int!) {
@@ -17,6 +18,15 @@ const GET_COLLECTIONS_QUERY = `
 `;
 
 export async function GET(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: true,
+      collections: [],
+      count: 0,
+      message: 'Shopify is disabled',
+    });
+  }
+
   try {
     const result = await shopifyClient.request(GET_COLLECTIONS_QUERY, {
       first: 50,

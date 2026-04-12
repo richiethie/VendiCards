@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Star, Shield, Zap, Users, Phone, Facebook, ExternalLink, HelpCircle, ChevronDown } from 'lucide-react';
+import { Star, Zap, Users, Phone, Facebook, ExternalLink, HelpCircle, ChevronDown } from 'lucide-react';
 import { FaInstagram } from 'react-icons/fa';
 import Hero from '@/components/Hero';
 import AnnouncementBanner from '@/components/AnnouncementBanner';
@@ -49,7 +49,7 @@ export default function HomePage() {
             </p>
           </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              {/* Shop Collection */}
             <Link href="/shop" className="group bg-gradient-to-br from-red-500/10 to-transparent backdrop-blur-sm rounded-2xl border border-red-500/30 p-8 text-center hover:border-red-500/50 hover:bg-red-500/20 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 hover:-translate-y-1">
               <div className="w-16 h-16 bg-red-500/20 border border-red-500/30 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-red-500/30 transition-all duration-300">
@@ -64,7 +64,7 @@ export default function HomePage() {
               </span>
             </Link>
 
-             {/* Card Services */}
+             {/* Repairs / Card Services tile — paused; re-enable with lib/siteFlags.ts
             <Link href="/repairs" className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 text-center hover:border-red-500/30 hover:bg-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/5 hover:-translate-y-1">
               <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300">
                 <Shield className="w-8 h-8 text-red-400" />
@@ -77,6 +77,7 @@ export default function HomePage() {
                 Learn More →
               </span>
             </Link>
+            */}
 
              {/* Sell Collection */}
             <Link href="/contact" className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 text-center hover:border-red-500/30 hover:bg-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/5 hover:-translate-y-1">

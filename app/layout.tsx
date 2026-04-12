@@ -25,13 +25,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   icons: {
     icon: [
-      { url: '/images/vendicards_logo.png', sizes: '32x32', type: 'image/png' },
-      { url: '/images/vendicards_logo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/images/vendicards_logo2.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/images/vendicards_logo2.jpg', sizes: '16x16', type: 'image/jpeg' },
     ],
     apple: [
-      { url: '/images/vendicards_logo.png', sizes: '180x180', type: 'image/png' },
+      { url: '/images/vendicards_logo2.jpg', sizes: '180x180', type: 'image/jpeg' },
     ],
-    shortcut: '/images/vendicards_logo.png',
+    shortcut: '/images/vendicards_logo2.jpg',
   },
   alternates: {
     canonical: '/',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: "VendiCards",
     images: [
       {
-        url: '/images/vendicards_logo.png',
+        url: '/images/vendicards_logo2.jpg',
         width: 1200,
         height: 630,
         alt: "VendiCards - Premium Pokémon Cards & Repair Services",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "VendiCards - Premium Pokémon Cards & Repair Services",
     description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
-    images: ['/images/vendicards_logo.png'],
+    images: ['/images/vendicards_logo2.jpg'],
   },
   robots: {
     index: true,

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { shopifyClient } from '@/lib/shopify/storefront';
+import { isShopifyEnabled } from '@/lib/env';
 
 // Validation schema for cart operations
 const cartItemSchema = z.object({
@@ -260,6 +261,13 @@ const GET_PRODUCT_VARIANT_QUERY = `
 `;
 
 export async function POST(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: false,
+      message: 'Cart is unavailable while Shopify is disabled',
+    }, { status: 503 });
+  }
+
   try {
     const startTime = Date.now();
     
@@ -709,6 +717,13 @@ async function clearCart(cartId: string) {
 
 // Handle GET requests for cart status
 export async function GET(request: NextRequest) {
+  if (!isShopifyEnabled) {
+    return NextResponse.json({
+      success: false,
+      message: 'Cart is unavailable while Shopify is disabled',
+    }, { status: 503 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const cartId = searchParams.get('cartId');

@@ -220,12 +220,14 @@ export default function AboutPage() {
                 >
                   Browse Products
                 </Link>
+                {/* Repairs paused — re-enable with lib/siteFlags.ts
                 <Link
                   href="/repairs"
                   className="border border-primary-600 text-primary-400 px-6 py-3 rounded-lg font-semibold hover:bg-primary-900/20 transition-colors"
                 >
                   Card Repair Services
                 </Link>
+                */}
               </div>
             </div>
           </section>

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { sendRepairRequestEmails } from '@/server/mail';
 import { generateId } from '@/lib/formatting';
+import { repairsOffered } from '@/lib/siteFlags';
 
 // Validation schema for repair requests
 const repairRequestSchema = z.object({
@@ -17,6 +18,13 @@ const repairRequestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    if (!repairsOffered) {
+      return NextResponse.json(
+        { success: false, message: 'Repair requests are not being accepted at this time.' },
+        { status: 503 }
+      );
+    }
+
     const startTime = Date.now();
     
     // Parse and validate request body

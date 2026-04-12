@@ -2,24 +2,25 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { MapPin, ArrowRight } from 'lucide-react';
 
 const AnnouncementBanner: React.FC = () => {
   const bannerContent = (
     <>
-      <div className="flex items-center gap-2">
-        <Sparkles className="w-4 h-4 flex-shrink-0" />
-        <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">
-          FONDY CARD SHOW - MAY 17TH
-        </span>
-      </div>
-      <Link 
-        href="/fondy-card-show"
+      {/* Link first so it appears sooner while the ticker scrolls on narrow screens */}
+      <Link
+        href="/location/new"
         className="flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-wide underline hover:no-underline transition-all flex-shrink-0"
       >
         LEARN MORE
         <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
       </Link>
+      <div className="flex items-center gap-2">
+        <MapPin className="w-4 h-4 flex-shrink-0" />
+        <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">
+          WE&apos;RE MOVING · GRAND REOPENING MAY 4
+        </span>
+      </div>
     </>
   );
 

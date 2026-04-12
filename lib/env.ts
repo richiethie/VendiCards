@@ -18,6 +18,16 @@ const envSchema = z.object({
   // App Configuration
   NEXT_PUBLIC_SITE_URL: z.string().url().optional().default('http://localhost:3000'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+
+  // Shopify feature flags
+  SHOPIFY_ENABLED: z.string().optional().default('true'),
+  NEXT_PUBLIC_SHOPIFY_ENABLED: z.string().optional().default('true'),
+
+  // Cloudinary (inventory gallery)
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
+  CLOUDINARY_INVENTORY_FOLDER: z.string().optional().default('inventory'),
 });
 
 export const env = envSchema.parse(process.env);
@@ -27,3 +37,6 @@ export const isDevelopment = env.NODE_ENV === 'development';
 
 // Helper function to check if we're in production
 export const isProduction = env.NODE_ENV === 'production';
+
+// Helper function to check if Shopify is enabled on server
+export const isShopifyEnabled = env.SHOPIFY_ENABLED !== 'false';
