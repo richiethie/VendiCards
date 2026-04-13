@@ -126,8 +126,8 @@ export default function ContactPage() {
           <div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6">Get In Touch</h2>
             <p className="text-gray-400 leading-relaxed mb-6 sm:mb-8 text-sm sm:text-base">
-              We&apos;re here to help with all your Pokémon card needs! Whether you&apos;re looking to buy, sell, 
-              or need professional repair services, feel free to reach out. We respond quickly and are 
+              We&apos;re here to help with all your Pokémon card needs! Whether you&apos;re looking to buy, sell,
+              or want grading prep and collection guidance, feel free to reach out. We respond quickly and are
               always happy to answer questions about our collection or services.
             </p>
 
@@ -452,7 +452,6 @@ export default function ContactPage() {
                   >
                     <option value="">Select a topic</option>
                     <option value="purchase">Looking to Buy Cards</option>
-                    <option value="repair">Card Repair Services</option>
                     <option value="evaluation">Card Evaluation/Grading Prep</option>
                     <option value="selling">Selling Cards to You</option>
                     <option value="appraisal">Card Appraisal</option>
@@ -500,7 +499,7 @@ export default function ContactPage() {
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 sm:mb-6 text-center">
             How We Can Help You
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div className="text-center">
               <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -519,21 +518,9 @@ export default function ContactPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
                 </svg>
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Card Repair</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Card Evaluation</h3>
               <p className="text-gray-400 text-xs sm:text-sm leading-relaxed px-2">
-                Professional restoration services to improve your card's condition and value.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-12 sm:w-16 h-12 sm:h-16 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4">
-                <svg className="w-6 sm:w-8 h-6 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">Evaluation</h3>
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed px-2">
-                Expert card evaluation with detailed reports starting at $1 per card through 2025.
+                Card condition reviews and recommendations to help you plan your next grading or selling step.
               </p>
             </div>
 

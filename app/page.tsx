@@ -64,21 +64,6 @@ export default function HomePage() {
               </span>
             </Link>
 
-             {/* Repairs / Card Services tile — paused; re-enable with lib/siteFlags.ts
-            <Link href="/repairs" className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 text-center hover:border-red-500/30 hover:bg-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/5 hover:-translate-y-1">
-              <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-300">
-                <Shield className="w-8 h-8 text-red-400" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-4">Card Services</h3>
-              <p className="text-gray-400 mb-6 leading-relaxed">
-                Professional restoration, grading prep, and appraisal services to maximize the value of your collection.
-              </p>
-              <span className="text-red-400 hover:text-red-300 font-medium group-hover:underline">
-                Learn More →
-              </span>
-            </Link>
-            */}
-
              {/* Sell Collection */}
             <Link href="/contact" className="group bg-[#0e0f11]/80 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 text-center hover:border-red-500/30 hover:bg-white/5 transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/5 hover:-translate-y-1">
                <div className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:bg-red-500/15 transition-all duration-500">
@@ -284,9 +269,9 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-2">Card Repair Services</h4>
+                <h4 className="text-white font-semibold mb-2">Card Evaluation Services</h4>
                   <p className="text-gray-300 leading-relaxed">
-                    Due to the personalized nature of our <strong className="text-white">card repair and restoration services</strong>, refunds are not available once work has been completed. This includes services such as crease reduction, scratch elimination, and pre-grading inspections. However, in certain cases, <strong className="text-white">store credit may be issued at our discretion</strong> if the outcome does not meet reasonable expectations. Please contact us to discuss any concerns related to your repair service.
+                    Due to the personalized nature of our <strong className="text-white">card evaluation and grading-prep guidance services</strong>, refunds are not available once work has been completed. However, in certain cases, <strong className="text-white">store credit may be issued at our discretion</strong> if the outcome does not meet reasonable expectations. Please contact us to discuss any concerns related to your service.
                   </p>
                 </div>
               </div>

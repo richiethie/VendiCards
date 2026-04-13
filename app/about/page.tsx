@@ -63,10 +63,9 @@ export default function AboutPage() {
               </p>
 
               <p className="leading-relaxed text-sm sm:text-base text-left">
-                At VendiCards, we specialize in card repair and restoration services, including crease reduction, 
-                scratch elimination, and pre-grading inspections to ensure your cards look as good as possible. 
-                Our expert team has years of experience working with Pokémon cards and understands the nuances 
-                of proper restoration techniques that preserve both value and authenticity.
+                At VendiCards, we focus on high-quality collectibles, grading prep guidance, and honest card education
+                to help collectors make confident decisions. Our team has years of experience working with Pokémon cards
+                and understands what matters most for condition, authenticity, and long-term value.
               </p>
 
               <p className="leading-relaxed text-sm sm:text-base font-semibold text-gray-300 text-left">
@@ -91,8 +90,8 @@ export default function AboutPage() {
               <div className="bg-green-900/20 border border-green-800 rounded-xl p-4 sm:p-6">
                 <h3 className="text-lg sm:text-xl font-bold text-green-300 mb-3 sm:mb-4 text-left">Our Vision</h3>
                 <p className="text-gray-300 leading-relaxed text-sm sm:text-base text-left">
-                  To be a trusted leader in the Pokémon card community, known for professional restoration 
-                  services, authentic products, and exceptional customer service that exceeds expectations.
+                  To be a trusted leader in the Pokémon card community, known for authentic products,
+                  transparent guidance, and exceptional customer service that exceeds expectations.
                 </p>
               </div>
             </div>
@@ -186,9 +185,9 @@ export default function AboutPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 7.172V5L8 4z" />
                   </svg>
                 </div>
-                <h3 className="text-lg font-bold text-gray-100 mb-3">Card Repair & Restoration</h3>
+                <h3 className="text-lg font-bold text-gray-100 mb-3">Grading Prep & Evaluation</h3>
                 <p className="text-gray-400 text-sm leading-relaxed">
-                  Expert restoration services including crease reduction, scratch elimination, and pre-grading preparation.
+                  Collector-focused support with pre-grading preparation, card condition guidance, and honest recommendations.
                 </p>
               </div>
               <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6 md:col-span-2 lg:col-span-1">
@@ -220,14 +219,6 @@ export default function AboutPage() {
                 >
                   Browse Products
                 </Link>
-                {/* Repairs paused — re-enable with lib/siteFlags.ts
-                <Link
-                  href="/repairs"
-                  className="border border-primary-600 text-primary-400 px-6 py-3 rounded-lg font-semibold hover:bg-primary-900/20 transition-colors"
-                >
-                  Card Repair Services
-                </Link>
-                */}
               </div>
             </div>
           </section>

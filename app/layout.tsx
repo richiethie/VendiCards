@@ -14,11 +14,11 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
-    default: "VendiCards - Premium Pokémon Cards & Repair Services",
+    default: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
     template: "%s | VendiCards"
   },
   description: 'Welcome to VendiCards! We\'re a new store specializing in Pokemon and One Piece trading cards and collectibles. From sealed product and raw cards to graded gems, custom merch, and slick accessories — we have everything you need!',
-  keywords: ['pokemon cards', 'pokemon', 'trading cards', 'card repair', 'card restoration', 'grading preparation', 'authentic cards', 'collectibles', 'tcg', 'vendicards'],
+  keywords: ['pokemon cards', 'pokemon', 'one piece cards', 'one piece tcg', 'trading cards', 'grading preparation', 'authentic cards', 'collectibles', 'tcg', 'vendicards'],
   authors: [{ name: "VendiCards" }],
   creator: "VendiCards",
   publisher: "VendiCards",
@@ -30,13 +30,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   icons: {
     icon: [
-      { url: '/images/vendicards_logo2.jpg', sizes: '32x32', type: 'image/jpeg' },
-      { url: '/images/vendicards_logo2.jpg', sizes: '16x16', type: 'image/jpeg' },
+      { url: '/images/vendicards_logo3.jpg', sizes: '32x32', type: 'image/jpeg' },
+      { url: '/images/vendicards_logo3.jpg', sizes: '16x16', type: 'image/jpeg' },
     ],
     apple: [
-      { url: '/images/vendicards_logo2.jpg', sizes: '180x180', type: 'image/jpeg' },
+      { url: '/images/vendicards_logo3.jpg', sizes: '180x180', type: 'image/jpeg' },
     ],
-    shortcut: '/images/vendicards_logo2.jpg',
+    shortcut: '/images/vendicards_logo3.jpg',
   },
   alternates: {
     canonical: '/',
@@ -45,23 +45,23 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    title: "VendiCards - Premium Pokémon Cards & Repair Services",
+    title: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
     description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
     siteName: "VendiCards",
     images: [
       {
-        url: '/images/vendicards_logo2.jpg',
+        url: '/images/vendicards_logo3.jpg',
         width: 1200,
         height: 630,
-        alt: "VendiCards - Premium Pokémon Cards & Repair Services",
+        alt: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "VendiCards - Premium Pokémon Cards & Repair Services",
+    title: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
     description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
-    images: ['/images/vendicards_logo2.jpg'],
+    images: ['/images/vendicards_logo3.jpg'],
   },
   robots: {
     index: true,

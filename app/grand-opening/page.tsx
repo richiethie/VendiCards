@@ -375,9 +375,9 @@ export default function GrandOpeningPage() {
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-2">Card Repair Services</h4>
+                  <h4 className="text-white font-semibold mb-2">Card Evaluation Services</h4>
                   <p className="text-gray-300 leading-relaxed">
-                    Due to the personalized nature of our <strong className="text-white">card repair and restoration services</strong>, refunds are not available once work has been completed. This includes services such as crease reduction, scratch elimination, and pre-grading inspections. However, in certain cases, <strong className="text-white">store credit may be issued at our discretion</strong> if the outcome does not meet reasonable expectations. Please contact us to discuss any concerns related to your repair service.
+                    Due to the personalized nature of our <strong className="text-white">card evaluation and grading-prep guidance services</strong>, refunds are not available once work has been completed. However, in certain cases, <strong className="text-white">store credit may be issued at our discretion</strong> if the outcome does not meet reasonable expectations. Please contact us to discuss any concerns related to your service.
                   </p>
                 </div>
               </div>

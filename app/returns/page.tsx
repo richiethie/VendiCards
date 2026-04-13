@@ -50,7 +50,7 @@ export default function ReturnsPage() {
                   <strong className="text-white">Sealed Products:</strong> Sealed products are final sale and non-refundable.
                 </p>
                 <p>
-                  <strong className="text-white">Card Repair Services:</strong> Card repair services are non-refundable. In some cases, store credit may be offered at our discretion.
+                  <strong className="text-white">Card Evaluation Services:</strong> Evaluation and grading-prep guidance services are non-refundable. In some cases, store credit may be offered at our discretion.
                 </p>
                 <p>
                   <strong className="text-white">Merchandise (e.g. apparel):</strong> Merchandise can be exchanged if sizing does not fit; items must be returned in new, unworn condition.

@@ -8,6 +8,7 @@ interface CloudinaryResource {
   height: number;
   created_at: string;
   format: string;
+  resource_type?: 'image' | 'video' | 'raw';
   folder?: string;
   asset_folder?: string;
 }
@@ -41,80 +42,83 @@ export async function GET() {
       cache: 'no-store',
     };
 
-    // First attempt: exact folder lookup
-    let resources: CloudinaryResource[] = [];
-    const folderVariants = Array.from(new Set([folder, folder.toLowerCase(), folder.toUpperCase()]));
+    const fetchResources = async (
+      resourceType: 'image' | 'video',
+      mode: 'by_asset_folder' | 'prefix'
+    ): Promise<CloudinaryResource[]> => {
+      if (mode === 'by_asset_folder') {
+        for (const folderVariant of folderVariants) {
+          const byFolderUrl = new URL(
+            `https://api.cloudinary.com/v1_1/${cloudName}/resources/by_asset_folder/${encodeURIComponent(folderVariant)}`
+          );
+          byFolderUrl.searchParams.set('resource_type', resourceType);
+          byFolderUrl.searchParams.set('max_results', '100');
+          byFolderUrl.searchParams.set('direction', 'desc');
 
-    for (const folderVariant of folderVariants) {
-      const byFolderUrl = new URL(
-        `https://api.cloudinary.com/v1_1/${cloudName}/resources/by_asset_folder/${encodeURIComponent(folderVariant)}`
-      );
-      byFolderUrl.searchParams.set('max_results', '100');
-      byFolderUrl.searchParams.set('direction', 'desc');
-
-      const byFolderResponse = await fetch(byFolderUrl.toString(), requestOptions);
-      if (byFolderResponse.ok) {
-        const byFolderData = await byFolderResponse.json();
-        const byFolderResources = (byFolderData.resources || []) as CloudinaryResource[];
-        if (byFolderResources.length > 0) {
-          resources = byFolderResources;
-          break;
+          const response = await fetch(byFolderUrl.toString(), requestOptions);
+          if (response.ok) {
+            const data = await response.json();
+            const byFolderResources = (data.resources || []) as CloudinaryResource[];
+            if (byFolderResources.length > 0) return byFolderResources;
+          }
         }
+        return [];
       }
-    }
 
-    if (resources.length === 0) {
-      // Fallback: prefix lookup
-      const prefixUrl = new URL(`https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload`);
+      const prefixUrl = new URL(`https://api.cloudinary.com/v1_1/${cloudName}/resources/${resourceType}/upload`);
       prefixUrl.searchParams.set('prefix', `${folder}/`);
       prefixUrl.searchParams.set('max_results', '100');
       prefixUrl.searchParams.set('direction', 'desc');
 
-      const prefixResponse = await fetch(prefixUrl.toString(), requestOptions);
+      const response = await fetch(prefixUrl.toString(), requestOptions);
+      if (!response.ok) return [];
+      const data = await response.json();
+      return (data.resources || []) as CloudinaryResource[];
+    };
 
-      if (!prefixResponse.ok) {
-        const errorText = await prefixResponse.text();
-        return NextResponse.json(
-          {
-            success: false,
-            images: [],
-            message: 'Failed to fetch inventory images from Cloudinary',
-            error: errorText,
-          },
-          { status: 502 }
-        );
-      }
+    // First attempt: exact folder lookup across images + videos
+    let resources: CloudinaryResource[] = [];
+    const folderVariants = Array.from(new Set([folder, folder.toLowerCase(), folder.toUpperCase()]));
+    const imageByFolder = await fetchResources('image', 'by_asset_folder');
+    const videoByFolder = await fetchResources('video', 'by_asset_folder');
+    resources = [...imageByFolder, ...videoByFolder];
 
-      const prefixData = await prefixResponse.json();
-      resources = (prefixData.resources || []) as CloudinaryResource[];
+    if (resources.length === 0) {
+      // Fallback: prefix lookup across images + videos
+      const imageByPrefix = await fetchResources('image', 'prefix');
+      const videoByPrefix = await fetchResources('video', 'prefix');
+      resources = [...imageByPrefix, ...videoByPrefix];
     }
 
-    // Final fallback: fetch recent images and filter by Cloudinary folder metadata.
+    // Final fallback: fetch recent media and filter by Cloudinary folder metadata.
     // This handles cases where public_id stays unchanged after moving assets in UI.
     if (resources.length === 0) {
-      const allImagesUrl = new URL(`https://api.cloudinary.com/v1_1/${cloudName}/resources/image/upload`);
-      allImagesUrl.searchParams.set('max_results', '200');
-      allImagesUrl.searchParams.set('direction', 'desc');
+      const fetchRecent = async (resourceType: 'image' | 'video') => {
+        const url = new URL(`https://api.cloudinary.com/v1_1/${cloudName}/resources/${resourceType}/upload`);
+        url.searchParams.set('max_results', '200');
+        url.searchParams.set('direction', 'desc');
+        const response = await fetch(url.toString(), requestOptions);
+        if (!response.ok) return [] as CloudinaryResource[];
+        const data = await response.json();
+        return (data.resources || []) as CloudinaryResource[];
+      };
 
-      const allImagesResponse = await fetch(allImagesUrl.toString(), requestOptions);
-      if (allImagesResponse.ok) {
-        const allImagesData = await allImagesResponse.json();
-        const allResources = (allImagesData.resources || []) as CloudinaryResource[];
-
-        resources = allResources.filter((resource) => {
-          const resourceFolder = resource.folder?.replace(/^\/+|\/+$/g, '').toLowerCase();
-          const resourceAssetFolder = resource.asset_folder?.replace(/^\/+|\/+$/g, '').toLowerCase();
-          const publicId = resource.public_id.toLowerCase();
-          return (
-            resourceFolder === folderNormalized ||
-            resourceAssetFolder === folderNormalized ||
-            publicId.startsWith(`${folderNormalized}/`)
-          );
-        });
-      }
+      const allResources = [...(await fetchRecent('image')), ...(await fetchRecent('video'))];
+      resources = allResources.filter((resource) => {
+        const resourceFolder = resource.folder?.replace(/^\/+|\/+$/g, '').toLowerCase();
+        const resourceAssetFolder = resource.asset_folder?.replace(/^\/+|\/+$/g, '').toLowerCase();
+        const publicId = resource.public_id.toLowerCase();
+        return (
+          resourceFolder === folderNormalized ||
+          resourceAssetFolder === folderNormalized ||
+          publicId.startsWith(`${folderNormalized}/`)
+        );
+      });
     }
 
-    const images = resources.map((resource) => ({
+    const media = resources
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .map((resource) => ({
       id: resource.public_id,
       publicId: resource.public_id,
       url: resource.secure_url,
@@ -122,14 +126,15 @@ export async function GET() {
       height: resource.height,
       createdAt: resource.created_at,
       format: resource.format,
+      resourceType: resource.resource_type || 'image',
     }));
 
     return NextResponse.json({
       success: true,
       folder,
       configuredFolder: rawFolder,
-      count: images.length,
-      images,
+      count: media.length,
+      images: media,
     });
   } catch (error) {
     return NextResponse.json(

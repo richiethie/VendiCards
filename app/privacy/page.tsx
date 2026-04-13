@@ -53,7 +53,7 @@ export default function PrivacyPage() {
                   <li>Name and contact information (email address, phone number, mailing address)</li>
                   <li>Payment information (processed securely through third-party payment processors)</li>
                   <li>Order history and transaction details</li>
-                  <li>Card descriptions and condition notes (for repair and grading services)</li>
+                  <li>Card descriptions and condition notes (for evaluations and grading prep)</li>
                   <li>Communication preferences</li>
                 </ul>
                 <p className="mt-4">
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
                 <ul className="list-disc list-inside space-y-2 ml-4">
                   <li>Process and fulfill your orders and service requests</li>
                   <li>Communicate with you about your orders, services, and inquiries</li>
-                  <li>Send you updates about your repair or grading requests</li>
+                  <li>Send you updates about your evaluation or grading requests</li>
                   <li>Respond to your questions and provide customer support</li>
                   <li>Improve our website, products, and services</li>
                   <li>Send you marketing communications (only if you have opted in)</li>

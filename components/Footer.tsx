@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
             <div className="flex items-center mb-4 sm:mb-6">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden flex items-center justify-center bg-white/5">
                 <Image
-                  src="/images/vendicards_logo2.jpg"
+                  src="/images/vendicards_logo3.jpg"
                   alt="VendiCards Logo"
                   width={48}
                   height={48}
@@ -85,13 +85,6 @@ const Footer: React.FC = () => {
                   Buy Pokémon Cards
                 </Link>
               </li>
-              {/* Repairs paused — re-enable with lib/siteFlags + middleware
-              <li>
-                <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Card Restoration
-                </Link>
-              </li>
-              */}
               <li>
                 <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors">
                   Grading Service
@@ -163,7 +156,7 @@ const Footer: React.FC = () => {
 
             <div className="mt-6">
               <p className="text-gray-400 text-sm leading-relaxed">
-                Questions about cards, repairs, or services? We're here to help build your collection.
+                Questions about cards, grading, or services? We're here to help build your collection.
               </p>
             </div>
           </div>
@@ -175,11 +168,6 @@ const Footer: React.FC = () => {
               <Link href="/shop" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Buy Cards
               </Link>
-              {/* Repairs paused — see lib/siteFlags.ts
-              <Link href="/repairs" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
-                Restoration
-              </Link>
-              */}
               <Link href="/about" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 About Us
               </Link>

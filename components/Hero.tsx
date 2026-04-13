@@ -52,7 +52,7 @@ const Hero: React.FC = () => {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10">
-            Browse our curated collection of graded slabs, sealed products, and rare singles. Professional restoration and grading prep available.
+            Browse our curated collection of graded slabs, sealed products, and rare singles. Grading prep and evaluation guidance available.
           </p>
 
           {/* CTA Buttons */}
@@ -65,15 +65,6 @@ const Hero: React.FC = () => {
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
             
-            {/* Repairs paused — re-enable with lib/siteFlags.ts
-            <Link
-              href="/repairs"
-              className="group w-full sm:w-auto bg-transparent hover:bg-white/5 text-white border-2 border-gray-700 hover:border-red-500/50 px-10 py-4 rounded-lg text-lg font-bold transition-all duration-300 flex items-center justify-center gap-3"
-            >
-              Card Services
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            */}
           </div>
         </div>
       </div>

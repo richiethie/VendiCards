@@ -110,7 +110,7 @@ export default function TermsPage() {
                   Sealed products are final sale and non-refundable.
                 </p>
                 <p>
-                  Card repair services are non-refundable. In some cases, store credit may be offered at our discretion.
+                  Card evaluation and grading-prep guidance services are non-refundable. In some cases, store credit may be offered at our discretion.
                 </p>
                 <p>
                   Merchandise (e.g. apparel) can be exchanged if sizing does not fit; items must be returned in new, unworn condition.
@@ -137,7 +137,7 @@ export default function TermsPage() {
                   We are not responsible for grading decisions made by third-party companies (such as PSA, BGS, CGC, etc.).
                 </p>
                 <p>
-                  While our card repair products and services have been tested and used successfully through both PSA and BGS several times with no issues, we cannot guarantee future acceptance or results.
+                  While our card handling and grading-prep recommendations are based on experience with both PSA and BGS submissions, we cannot guarantee future acceptance or grading results.
                 </p>
                 <p>
                   Card conditioning is inherently subjective. While we strive for accuracy and high standards, minor differences in opinion may exist regarding raw card condition. We are human; please contact us with any questions or concerns.

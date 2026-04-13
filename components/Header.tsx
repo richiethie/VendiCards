@@ -45,9 +45,6 @@ const Header: React.FC = () => {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
-    /* Repairs paused — set `repairsOffered` in lib/siteFlags.ts and uncomment:
-    { name: 'Repairs', href: '/repairs' },
-    */
     { name: 'Grading', href: '/grading' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
@@ -209,7 +206,7 @@ const Header: React.FC = () => {
               <Link href="/" className="flex items-center group">
                 <div className="w-10 h-10 rounded-md overflow-hidden flex items-center justify-center bg-white/5 group-hover:bg-white/10 transition-colors">
                   <Image
-                    src="/images/vendicards_logo2.jpg"
+                    src="/images/vendicards_logo3.jpg"
                     alt="VendiCards Logo"
                     width={40}
                     height={40}

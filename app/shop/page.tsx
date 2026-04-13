@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import ProductCard from '@/components/ProductCard';
-import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package, ChevronDown, ChevronUp } from 'lucide-react';
+import { Loader2, Search, X, Filter, Grid3X3, LayoutGrid, SortAsc, Package, ChevronDown, ChevronUp, Play } from 'lucide-react';
 import { ShopifyProduct } from '@/types/shopify';
 import Link from 'next/link';
 import { useShopifyEnabled } from '@/components/SiteFlagsContext';
@@ -17,6 +17,7 @@ interface InventoryImage {
   height: number;
   createdAt: string;
   format: string;
+  resourceType?: 'image' | 'video' | 'raw';
 }
 
 function ShopContent() {
@@ -1000,6 +1001,14 @@ export default function ShopPage() {
     }).format(d);
   };
 
+  const getVideoPosterUrl = (url: string) => {
+    // Cloudinary video thumbnail at first frame.
+    if (!url.includes('/video/upload/')) return undefined;
+    let transformed = url.replace('/video/upload/', '/video/upload/so_0/');
+    transformed = transformed.replace(/\.(mp4|mov|webm|mkv|avi)(\?.*)?$/i, '.jpg$2');
+    return transformed;
+  };
+
   const newestInventoryImage =
     inventoryImages.length > 0
       ? inventoryImages.reduce((newest, current) => {
@@ -1033,7 +1042,7 @@ export default function ShopPage() {
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-white">Shop</h1>
               <p className="text-gray-400 text-base md:text-lg mt-1">
-                Discover our collection of premium Pokémon cards and collectibles
+                We update this page weekly with our latest in-store inventory. Please contact us to confirm availability.
               </p>
             </div>
           </div>
@@ -1051,7 +1060,7 @@ export default function ShopPage() {
 
           {inventoryLoading && (
             <div className="py-16 flex items-center justify-center text-gray-300 text-lg">
-              Loading inventory photos...
+              Loading inventory media...
             </div>
           )}
 
@@ -1063,7 +1072,7 @@ export default function ShopPage() {
 
           {!inventoryLoading && !inventoryError && inventoryImages.length === 0 && (
             <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-8 text-center">
-              <p className="text-white text-lg font-semibold mb-2">No inventory photos uploaded yet</p>
+              <p className="text-white text-lg font-semibold mb-2">No inventory media uploaded yet</p>
             </div>
           )}
 
@@ -1074,17 +1083,35 @@ export default function ShopPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedInventoryImage(image)}
-                    className="w-full h-80 sm:h-96 bg-black/30 p-3 flex items-center justify-center cursor-zoom-in"
-                    aria-label="View image fullscreen"
+                    className="relative w-full h-80 sm:h-96 bg-black/30 p-3 flex items-center justify-center cursor-zoom-in"
+                    aria-label={image.resourceType === 'video' ? 'View video fullscreen' : 'View image fullscreen'}
                   >
-                    <Image
-                      src={image.url}
-                      alt={image.publicId}
-                      width={image.width || 1200}
-                      height={image.height || 900}
-                      className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
+                    {image.resourceType === 'video' ? (
+                      <>
+                        <Image
+                          src={getVideoPosterUrl(image.url) || image.url}
+                          alt={`${image.publicId} video thumbnail`}
+                          width={image.width || 1200}
+                          height={image.height || 900}
+                          className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <div className="w-16 h-16 rounded-full bg-black/65 border border-white/20 flex items-center justify-center shadow-xl">
+                            <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <Image
+                        src={image.url}
+                        alt={image.publicId}
+                        width={image.width || 1200}
+                        height={image.height || 900}
+                        className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    )}
                   </button>
                 </div>
               ))}
@@ -1112,15 +1139,25 @@ export default function ShopPage() {
               className="relative w-full max-w-7xl max-h-[90vh] h-auto flex items-center justify-center"
               onClick={(event) => event.stopPropagation()}
             >
-              <Image
-                src={selectedInventoryImage.url}
-                alt={selectedInventoryImage.publicId}
-                width={selectedInventoryImage.width || 1600}
-                height={selectedInventoryImage.height || 1200}
-                className="max-w-full max-h-full w-auto h-auto object-contain scale-105"
-                sizes="100vw"
-                priority
-              />
+              {selectedInventoryImage.resourceType === 'video' ? (
+                <video
+                  src={selectedInventoryImage.url}
+                  className="max-w-full max-h-full w-auto h-auto object-contain scale-105"
+                  controls
+                  autoPlay
+                  playsInline
+                />
+              ) : (
+                <Image
+                  src={selectedInventoryImage.url}
+                  alt={selectedInventoryImage.publicId}
+                  width={selectedInventoryImage.width || 1600}
+                  height={selectedInventoryImage.height || 1200}
+                  className="max-w-full max-h-full w-auto h-auto object-contain scale-105"
+                  sizes="100vw"
+                  priority
+                />
+              )}
             </div>
           </div>
         )}
