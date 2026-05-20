@@ -91,8 +91,8 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors">
-                  Grand Reopening
+                <Link href="/fondy-card-show" className="text-gray-300 hover:text-blue-400 transition-colors">
+                  Fondy Card Show
                 </Link>
               </li>
               <li>
@@ -174,8 +174,8 @@ const Footer: React.FC = () => {
               <Link href="/grading" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Grading
               </Link>
-              <Link href="/grand-opening" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
-                Grand Reopening
+              <Link href="/fondy-card-show" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
+                Card Show
               </Link>
               <Link href="/contact" className="text-gray-300 hover:text-blue-400 transition-colors text-sm">
                 Contact
