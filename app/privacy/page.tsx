@@ -197,7 +197,7 @@ export default function PrivacyPage() {
                     <strong className="text-white">Phone:</strong> <a href="tel:+19205396222" className="text-red-400 hover:text-red-300">(920) 539-6222</a>
                   </p>
                   <p>
-                    <strong className="text-white">Address:</strong> 74 South Main Street, Suite 106, Fond du Lac, WI 54935
+                    <strong className="text-white">Address:</strong> 49 N Main St, Fond du Lac, WI 54935
                   </p>
                 </div>
               </div>

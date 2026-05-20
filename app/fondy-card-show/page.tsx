@@ -3,12 +3,17 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Sparkles, Calendar, Clock, MapPin, Facebook, ShoppingBag, DollarSign, RefreshCw, Navigation, ExternalLink, Ticket, Car } from 'lucide-react';
+import { Sparkles, Calendar, Clock, MapPin, Facebook, Navigation, ExternalLink, Ticket, Car } from 'lucide-react';
 import { FaInstagram } from 'react-icons/fa';
+import {
+  fondyCardShow,
+  formatCountdown,
+  getVendorSignupGoLiveDate,
+  isVendorSignupLive,
+} from '@/lib/fondyCardShowConfig';
 
 export default function FondyCardShowPage() {
-  // Go-live time: March 18, 2026 at 8:00 AM Central (13:00 UTC)
-  const goLiveDate = new Date('2026-03-18T13:00:00Z');
+  const goLiveDate = getVendorSignupGoLiveDate();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -19,49 +24,31 @@ export default function FondyCardShowPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const isLive = now >= goLiveDate;
+  const isLive = isVendorSignupLive(now);
   const remainingMs = Math.max(goLiveDate.getTime() - now.getTime(), 0);
 
-  const formatRemaining = (ms: number) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const days = Math.floor(totalSeconds / (60 * 60 * 24));
-    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
-    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-    const seconds = totalSeconds % 60;
-
-    if (days > 0) {
-      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-    if (hours > 0) {
-      return `${hours}h ${minutes}m ${seconds}s`;
-    }
-    return `${minutes}m ${seconds}s`;
-  };
-
-  // Map links
-  const locationAddress = 'Radisson Hotel Conference Center Fond du Lac WI';
+  const locationAddress = fondyCardShow.location.mapsQuery;
   const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(locationAddress)}`;
   const appleMapsUrl = `https://maps.apple.com/?daddr=${encodeURIComponent(locationAddress)}`;
   const googleMapsEmbed = `https://www.google.com/maps?q=${encodeURIComponent(locationAddress)}&output=embed`;
-  const vendorInquiryUrl = 'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-copy-1773356078983';
 
-  // Structured Data for SEO (Event Schema)
   const eventStructuredData = {
     '@context': 'https://schema.org',
     '@type': 'Event',
-    name: 'Fondy Card Show',
-    description: 'Trading card show with 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Free admission and parking. Buy, sell, and trade cards.',
-    startDate: '2026-05-17T09:00:00-06:00',
-    endDate: '2026-05-17T16:00:00-06:00',
+    name: fondyCardShow.name,
+    description:
+      'Trading card show with 100+ tables of Pokemon, sports cards, TCGs, and collectibles. Free admission and parking. Buy, sell, and trade cards.',
+    startDate: fondyCardShow.startDateTime,
+    endDate: fondyCardShow.endDateTime,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
       '@type': 'Place',
-      name: 'Radisson Hotel & Conference Center',
+      name: fondyCardShow.location.name,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Fond du Lac',
-        addressRegion: 'WI',
+        addressLocality: fondyCardShow.location.city,
+        addressRegion: fondyCardShow.location.region,
         addressCountry: 'US',
       },
     },
@@ -141,14 +128,14 @@ export default function FondyCardShowPage() {
                 <div className="flex items-center gap-3">
                   <Calendar className="w-5 h-5 text-red-400 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300 text-lg font-semibold">Sunday, May 17th</p>
+                  <p className="text-gray-300 text-lg font-semibold">{fondyCardShow.dateDisplay}</p>
                 </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Clock className="w-5 h-5 text-red-400 flex-shrink-0" />
                   <div>
-                    <p className="text-gray-300 text-lg font-semibold">9AM – 4PM</p>
-                    <p className="text-gray-400 text-sm">Vendor Setup: 8AM</p>
+                    <p className="text-gray-300 text-lg font-semibold">{fondyCardShow.publicHoursDisplay}</p>
+                    <p className="text-gray-400 text-sm">{fondyCardShow.vendorSetupDisplay}</p>
                   </div>
                 </div>
               </div>
@@ -211,8 +198,8 @@ export default function FondyCardShowPage() {
           <div className="lg:col-span-2 flex">
             <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 overflow-hidden w-full relative flex-1">
               <Image
-                src="/images/fondy-card-show-may-2026.png"
-                alt="Fondy Card Show Event Poster - Sunday May 17th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles"
+                src={fondyCardShow.posterSrc}
+                alt={fondyCardShow.posterAlt}
                 fill
                 className="object-contain"
               />
@@ -223,43 +210,50 @@ export default function FondyCardShowPage() {
         {/* Vendor Inquiries - Full Width */}
         <div className="mb-12">
           <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 p-8 sm:p-12">
-            <div className="max-w-2xl mx-auto text-center space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Vendor Inquiries</h2>
-              <p className="text-gray-400 text-lg">
-                Interested in being a vendor at the Fondy Card Show? Vendor signups open soon.
-              </p>
-
-              {!isLive && (
-                <p className="text-sm text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-3 inline-block">
-                  Vendor signups open at <span className="font-semibold">8:00 AM CT on March 18, 2026</span>
-                  {remainingMs > 0 && (
-                    <span className="block text-xs text-amber-200 mt-1">
-                      Countdown: {formatRemaining(remainingMs)}
-                    </span>
-                  )}
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <div className="space-y-2">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Vendor Inquiries</h2>
+                <p className="text-gray-400 text-lg">
+                  Interested in being a vendor at the Fondy Card Show? Vendor signups open soon.
                 </p>
-              )}
+              </div>
 
-              {isLive ? (
-                <a
-                  href={vendorInquiryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors text-center"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  Apply to be a Vendor
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  disabled
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gray-700 text-gray-300 rounded-lg font-semibold cursor-not-allowed opacity-80"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  Vendor Signups Locked
-                </button>
-              )}
+              <div className="flex flex-col items-center gap-4 w-full">
+                {!isLive && (
+                  <div className="w-full max-w-md text-sm text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-3 text-center">
+                    <p>
+                      Vendor signups open at{' '}
+                      <span className="font-semibold">{fondyCardShow.vendorSignupGoLiveDisplay}</span>
+                    </p>
+                    {remainingMs > 0 && (
+                      <p className="text-xs text-amber-200 mt-2">
+                        Countdown: {formatCountdown(remainingMs)}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {isLive ? (
+                  <a
+                    href={fondyCardShow.vendorBookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-w-[260px] px-8 py-4 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors"
+                  >
+                    <ExternalLink className="w-5 h-5 flex-shrink-0" />
+                    Apply to be a Vendor
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto min-w-[260px] px-8 py-4 bg-gray-700 text-gray-300 rounded-lg font-semibold cursor-not-allowed opacity-80"
+                  >
+                    <ExternalLink className="w-5 h-5 flex-shrink-0" />
+                    Vendor Signups Locked
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -311,7 +305,7 @@ export default function FondyCardShowPage() {
               
               <div className="space-y-4">
                 <p className="text-gray-300 text-lg leading-relaxed font-medium">
-                  Radisson Hotel & Conference Center – Fond du Lac
+                  {fondyCardShow.location.name} – {fondyCardShow.location.city}
                 </p>
                 
                 <div className="pt-4 border-t border-gray-800 space-y-3">
@@ -357,8 +351,8 @@ export default function FondyCardShowPage() {
             </div>
             <div className="p-4 sm:p-6 bg-gray-900/50 backdrop-blur-sm border-t border-gray-800">
               <p className="text-gray-300 text-sm">
-                <strong className="text-white">Radisson Hotel & Conference Center</strong><br />
-                Fond du Lac, WI
+                <strong className="text-white">{fondyCardShow.location.name}</strong><br />
+                {fondyCardShow.location.city}, {fondyCardShow.location.region}
               </p>
             </div>
           </div>

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { fondyCardShow, fondyCardShowMetaDescription } from '@/lib/fondyCardShowConfig';
 
 export const metadata: Metadata = {
   title: 'Fondy Card Show - Trading Cards & Collectibles Event | VendiCards',
-  description: 'Join us at the Fondy Card Show on Sunday, March 15th, 2026! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles. Buy, sell, and trade at the Radisson Hotel & Conference Center in Fond du Lac, WI. Hosted by VendiCards.',
+  description: fondyCardShowMetaDescription,
   keywords: [
     'Fondy Card Show',
     'Fond du Lac card show',
@@ -11,23 +12,23 @@ export const metadata: Metadata = {
     'sports card show',
     'TCG event Wisconsin',
     'trading cards Fond du Lac',
-    'card show March 2026',
+    `card show ${fondyCardShow.monthYearLabel}`,
     'VendiCards event',
     'trading card market',
     'collectibles shows',
-    'card trading event'
+    'card trading event',
   ],
   openGraph: {
     title: 'Fondy Card Show - Trading Cards & Collectibles Event',
-    description: 'Join us on Sunday, March 15th, 2026! Free admission and parking. 60+ tables of Pokemon, sports cards, TCGs, and collectibles at the Radisson Hotel in Fond du Lac, WI.',
+    description: fondyCardShowMetaDescription,
     url: '/fondy-card-show',
     siteName: 'VendiCards',
     images: [
       {
-        url: '/images/fondy-card-show.png',
+        url: fondyCardShow.posterSrc,
         width: 1200,
         height: 1600,
-        alt: 'Fondy Card Show Event Poster',
+        alt: fondyCardShow.posterAlt,
       },
     ],
     locale: 'en_US',
@@ -36,8 +37,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Fondy Card Show - Trading Cards & Collectibles Event',
-    description: 'Sunday, March 15th, 2026 | Free admission and parking | 60+ tables of Pokemon, sports cards, TCGs, and collectibles',
-    images: ['/images/fondy-card-show.png'],
+    description: `${fondyCardShow.dateDisplayLong} | Free admission and parking | 100+ tables of Pokemon, sports cards, TCGs, and collectibles`,
+    images: [fondyCardShow.posterSrc],
   },
   alternates: {
     canonical: '/fondy-card-show',
@@ -55,4 +56,3 @@ export default function FondyCardShowLayout({
 }) {
   return <>{children}</>;
 }
-

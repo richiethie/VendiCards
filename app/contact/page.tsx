@@ -168,7 +168,7 @@ export default function ContactPage() {
                     <h3 className="text-lg sm:text-xl font-bold text-white hover:text-red-400 transition-colors">Location</h3>
                   </Link>
                   <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-                    74 South Main Street, Suite 106<br />
+                    49 N Main St<br />
                     Fond du Lac, WI 54935
                   </p>
                   <p className="text-xs sm:text-sm text-gray-500">Shipping available nationwide</p>

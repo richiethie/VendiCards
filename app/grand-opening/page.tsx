@@ -84,7 +84,7 @@ export default function GrandOpeningPage() {
               <div className="space-y-4">
                 <div>
                   <p className="text-gray-300 text-lg sm:text-xl leading-relaxed font-medium">
-                    74 South Main Street, Suite 106
+                    49 N Main St
                   </p>
                   <p className="text-gray-300 text-lg sm:text-xl leading-relaxed font-medium">
                     Fond du Lac, WI 54935
@@ -93,7 +93,7 @@ export default function GrandOpeningPage() {
                 
                 <div className="pt-4 border-t border-gray-800">
                   <a
-                    href="https://www.google.com/maps/dir/?api=1&destination=74+South+Main+Street+Suite+106+Fond+du+Lac+WI+54935"
+                    href="https://www.google.com/maps/dir/?api=1&destination=49+N+Main+Street+Fond+du+Lac+WI+54935"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-red-400 hover:text-red-300 font-medium transition-colors"
@@ -155,7 +155,7 @@ export default function GrandOpeningPage() {
             <div className="bg-[#0e0f11] rounded-xl shadow-lg border border-gray-800 overflow-hidden">
               <div className="aspect-square sm:aspect-video lg:aspect-square relative bg-gray-900">
                 <iframe
-                  src="https://www.google.com/maps?q=74+South+Main+Street+Suite+106+Fond+du+Lac+WI+54935&output=embed"
+                  src="https://www.google.com/maps?q=49+N+Main+Street+Fond+du+Lac+WI+54935&output=embed"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
@@ -167,7 +167,7 @@ export default function GrandOpeningPage() {
               </div>
               <div className="p-4 sm:p-6 bg-gray-900/50 backdrop-blur-sm">
                 <p className="text-gray-300 text-sm">
-                  <strong className="text-white">74 South Main Street, Suite 106</strong><br />
+                  <strong className="text-white">49 N Main St</strong><br />
                   Fond du Lac, WI 54935
                 </p>
               </div>
@@ -178,7 +178,7 @@ export default function GrandOpeningPage() {
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Parking & Accessibility</h3>
               <div className="space-y-3 text-gray-300 text-sm sm:text-base">
                 <p className="leading-relaxed">
-                  Street parking is available along South Main Street. Please check posted parking regulations 
+                  Street parking is available along North Main Street. Please check posted parking regulations 
                   and time limits.
                 </p>
                 <p className="leading-relaxed">

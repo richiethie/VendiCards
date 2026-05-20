@@ -17,8 +17,23 @@ export const metadata: Metadata = {
     default: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
     template: "%s | VendiCards"
   },
-  description: 'Welcome to VendiCards! We\'re a new store specializing in Pokemon and One Piece trading cards and collectibles. From sealed product and raw cards to graded gems, custom merch, and slick accessories — we have everything you need!',
-  keywords: ['pokemon cards', 'pokemon', 'one piece cards', 'one piece tcg', 'trading cards', 'grading preparation', 'authentic cards', 'collectibles', 'tcg', 'vendicards'],
+  description:
+    'VendiCards in Fond du Lac, WI — Pokémon and One Piece cards, sealed product, graded slabs, and collectibles. Visit us at 49 N Main St or shop online.',
+  keywords: [
+    'pokemon cards',
+    'pokemon',
+    'one piece cards',
+    'one piece tcg',
+    'trading cards',
+    'grading preparation',
+    'authentic cards',
+    'collectibles',
+    'tcg',
+    'vendicards',
+    'Fond du Lac',
+    'Fond du Lac card shop',
+    '49 N Main St',
+  ],
   authors: [{ name: "VendiCards" }],
   creator: "VendiCards",
   publisher: "VendiCards",
@@ -46,7 +61,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: '/',
     title: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
-    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
+    description:
+      'VendiCards in Fond du Lac, WI at 49 N Main St — sealed product, raw cards, graded gems, custom merch, and accessories.',
     siteName: "VendiCards",
     images: [
       {
@@ -60,7 +76,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "VendiCards - Premium Pokémon & One Piece Cards & Collectibles",
-    description: 'From sealed product and raw cards to graded gems, custom merch, and slick accessories — VendiCards has everything you need to Collect \'em all!',
+    description:
+      'Visit VendiCards at 49 N Main St, Fond du Lac, WI — Pokémon & One Piece cards and collectibles.',
     images: ['/images/vendicards_logo3.jpg'],
   },
   robots: {
