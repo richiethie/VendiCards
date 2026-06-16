@@ -6,13 +6,13 @@ export const fondyCardShow = {
   name: 'Fondy Card Show',
 
   /** Shown on the event page (Date & Time section) */
-  dateDisplay: 'Sunday, June 14th',
+  dateDisplay: 'Sunday, July 19th',
   /** Used in metadata and long-form copy */
-  dateDisplayLong: 'Sunday, June 14, 2026',
-  monthYearLabel: 'June 2026',
+  dateDisplayLong: 'Sunday, July 19, 2026',
+  monthYearLabel: 'July 2026',
 
   /** Home page announcement ticker (keep short for mobile) */
-  announcementBannerText: 'FONDY CARD SHOW — JUNE 14',
+  announcementBannerText: 'FONDY CARD SHOW — JULY 19',
   announcementBannerHref: '/fondy-card-show',
 
   /** Event hours (display only) */
@@ -20,24 +20,24 @@ export const fondyCardShow = {
   vendorSetupDisplay: 'Vendor Setup: 8AM',
 
   /** Schema.org Event start/end (America/Chicago offset on event day) */
-  startDateTime: '2026-06-14T09:00:00-05:00',
-  endDateTime: '2026-06-14T16:00:00-05:00',
+  startDateTime: '2026-07-19T09:00:00-05:00',
+  endDateTime: '2026-07-19T16:00:00-05:00',
 
   /** ShowUp vendor table application URL */
   vendorBookingUrl:
-    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-June-14',
+    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-july-19-copy-1780969293348',
 
   /**
    * Vendor signup unlocks at 8:00 AM Central on this date.
-   * May 20, 2026 8:00 AM CDT = 13:00 UTC.
+   * June 17, 2026 8:00 AM CDT = 13:00 UTC.
    */
-  vendorSignupGoLiveUtc: '2026-05-20T13:00:00.000Z',
-  vendorSignupGoLiveDisplay: '8:00 AM CT on May 20, 2026',
+  vendorSignupGoLiveUtc: '2026-06-17T13:00:00.000Z',
+  vendorSignupGoLiveDisplay: '8:00 AM CT on June 17, 2026',
 
   /** Event poster under /public/images */
-  posterSrc: '/images/fondy-card-show-june-2026.png',
+  posterSrc: '/images/fondy-card-show-july-2026.png',
   posterAlt:
-    'Fondy Card Show Event Poster - Sunday June 14th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
+    'Fondy Card Show Event Poster - Sunday July 19th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
 
   location: {
     name: 'Radisson Hotel & Conference Center',
