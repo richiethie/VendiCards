@@ -6,13 +6,13 @@ export const fondyCardShow = {
   name: 'Fondy Card Show',
 
   /** Shown on the event page (Date & Time section) */
-  dateDisplay: 'Sunday, July 19th',
+  dateDisplay: 'Sunday, August 23rd',
   /** Used in metadata and long-form copy */
-  dateDisplayLong: 'Sunday, July 19, 2026',
-  monthYearLabel: 'July 2026',
+  dateDisplayLong: 'Sunday, August 23, 2026',
+  monthYearLabel: 'August 2026',
 
   /** Home page announcement ticker (keep short for mobile) */
-  announcementBannerText: 'FONDY CARD SHOW — JULY 19',
+  announcementBannerText: 'FONDY CARD SHOW — AUGUST 23',
   announcementBannerHref: '/fondy-card-show',
 
   /** Event hours (display only) */
@@ -20,24 +20,24 @@ export const fondyCardShow = {
   vendorSetupDisplay: 'Vendor Setup: 8AM',
 
   /** Schema.org Event start/end (America/Chicago offset on event day) */
-  startDateTime: '2026-07-19T09:00:00-05:00',
-  endDateTime: '2026-07-19T16:00:00-05:00',
+  startDateTime: '2026-08-23T09:00:00-05:00',
+  endDateTime: '2026-08-23T16:00:00-05:00',
 
   /** ShowUp vendor table application URL */
   vendorBookingUrl:
-    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-july-19-copy-1780969293348',
+    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-august-23rd-1780969293348',
 
   /**
    * Vendor signup unlocks at 8:00 AM Central on this date.
-   * June 17, 2026 8:00 AM CDT = 13:00 UTC.
+   * July 22, 2026 8:00 AM CDT = 13:00 UTC.
    */
-  vendorSignupGoLiveUtc: '2026-06-17T13:00:00.000Z',
-  vendorSignupGoLiveDisplay: '8:00 AM CT on June 17, 2026',
+  vendorSignupGoLiveUtc: '2026-07-22T13:00:00.000Z',
+  vendorSignupGoLiveDisplay: '8:00 AM CT on July 22, 2026',
 
   /** Event poster under /public/images */
-  posterSrc: '/images/fondy-card-show-july-2026.png',
+  posterSrc: '/images/fondy-card-show-august-2026.png',
   posterAlt:
-    'Fondy Card Show Event Poster - Sunday July 19th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
+    'Fondy Card Show Event Poster - Sunday August 23rd, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
 
   location: {
     name: 'Radisson Hotel & Conference Center',
