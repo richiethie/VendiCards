@@ -35,7 +35,7 @@ export const fondyCardShow = {
   vendorSignupGoLiveDisplay: '8:00 AM CT on August 26, 2026',
 
   /** Event poster under /public/images */
-  posterSrc: '/images/fondy-card-show-august-2026.png',
+  posterSrc: '/images/Fondy_Card_show_flyer_sep_13th.png',
   posterAlt:
     'Fondy Card Show Event Poster - Sunday September 13th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
 
