@@ -14,19 +14,19 @@ export const fondyCardShow = {
 
   /** Shown on the event page (Date & Time section) */
 
-  dateDisplay: 'Sunday, October 25th',
+  dateDisplay: 'Sunday, November 15th',
 
   /** Used in metadata and long-form copy */
 
-  dateDisplayLong: 'Sunday, October 25, 2026',
+  dateDisplayLong: 'Sunday, November 15, 2026',
 
-  monthYearLabel: 'October 2026',
+  monthYearLabel: 'November 2026',
 
 
 
   /** Home page announcement ticker (keep short for mobile) */
 
-  announcementBannerText: 'FONDY CARD SHOW — OCTOBER 25',
+  announcementBannerText: 'FONDY CARD SHOW — NOVEMBER 15',
 
   announcementBannerHref: '/fondy-card-show',
 
@@ -40,11 +40,11 @@ export const fondyCardShow = {
 
 
 
-  /** Schema.org Event start/end (America/Chicago offset on event day) */
+  /** Schema.org Event start/end (America/Chicago — CST after Nov 1 DST end) */
 
-  startDateTime: '2026-10-25T09:00:00-05:00',
+  startDateTime: '2026-11-15T09:00:00-06:00',
 
-  endDateTime: '2026-10-25T16:00:00-05:00',
+  endDateTime: '2026-11-15T16:00:00-06:00',
 
 
 
@@ -52,7 +52,7 @@ export const fondyCardShow = {
 
   vendorBookingUrl:
 
-    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-october25th-789070818',
+    'https://app.joinshowup.io/apply/the-fondy-card-show-hosted-by-vendicards-nov15th-7890708',
 
 
 
@@ -60,23 +60,23 @@ export const fondyCardShow = {
 
    * Vendor signup unlocks at 8:00 AM Central on this date.
 
-   * September 16, 2026 8:00 AM CDT = 13:00 UTC.
+   * October 28, 2026 8:00 AM CDT = 13:00 UTC.
 
    */
 
-  vendorSignupGoLiveUtc: '2026-09-16T13:00:00.000Z',
+  vendorSignupGoLiveUtc: '2026-10-28T13:00:00.000Z',
 
-  vendorSignupGoLiveDisplay: '8:00 AM CT on September 16, 2026',
+  vendorSignupGoLiveDisplay: '8:00 AM CT on October 28, 2026',
 
 
 
   /** Event poster under /public/images */
 
-  posterSrc: '/images/fondy-card-show-october-2026.png',
+  posterSrc: '/images/fondy-card-show-november-2026.png',
 
   posterAlt:
 
-    'Fondy Card Show Event Poster - Sunday October 25th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
+    'Fondy Card Show Event Poster - Sunday November 15th, 2026 at Radisson Hotel Fond du Lac - Trading Cards & Collectibles',
 
 
 
@@ -139,4 +139,5 @@ export function formatCountdown(ms: number): string {
 export const fondyCardShowMetaDescription =
 
   `Join us at the Fondy Card Show on ${fondyCardShow.dateDisplayLong}! Free admission and parking. 100+ tables of Pokemon, sports cards, TCGs, and collectibles. Buy, sell, and trade at the Radisson Hotel & Conference Center in Fond du Lac, WI. Hosted by VendiCards.`;
+
 
